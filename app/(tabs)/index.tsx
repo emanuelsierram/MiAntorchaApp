@@ -9,6 +9,8 @@ import { ThemedView } from '@/components/themed-view';
 import { Carousel } from '@/components/organisms/Carousel';
 import { TopBar } from '@/components/molecules/TopBar';
 import { SideMenu } from '@/components/organisms/SideMenu';
+import { TorchAnimation } from '@/components/atoms/TorchAnimation';
+import { CanguroPanel } from '@/components/organisms/CanguroPanel';
 import { Link } from 'expo-router';
 
 const carouselData = [
@@ -34,6 +36,7 @@ const carouselData = [
 
 export default function HomeScreen() {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isCanguroOpen, setIsCanguroOpen] = useState(false);
 
   return (
     <ThemedView style={styles.rootContainer}>
@@ -42,6 +45,9 @@ export default function HomeScreen() {
 
       {/* Menú lateral (SideMenu) */}
       <SideMenu visible={isMenuVisible} onClose={() => setIsMenuVisible(false)} />
+
+      {/* Panel colapsable ("Canguro") */}
+      <CanguroPanel isOpen={isCanguroOpen} onToggle={() => setIsCanguroOpen(!isCanguroOpen)} />
 
       <ParallaxScrollView
         headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -54,6 +60,7 @@ export default function HomeScreen() {
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">Welcome!</ThemedText>
           <HelloWave />
+          <TorchAnimation size={40} />
         </ThemedView>
 
         {/* NUEVO: Carrusel Destacados (Organismo) */}

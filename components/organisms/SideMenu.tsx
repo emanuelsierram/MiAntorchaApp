@@ -40,7 +40,7 @@ export function SideMenu({ visible, onClose }: SideMenuProps) {
         useNativeDriver: true,
       }).start();
     }
-  }, [visible]);
+  }, [visible, animValue]);
 
   const handleClose = () => {
     Animated.timing(animValue, {

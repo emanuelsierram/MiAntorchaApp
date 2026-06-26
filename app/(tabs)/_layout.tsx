@@ -10,17 +10,21 @@ export default function TabLayout() {
   const activeColor = '#000000';
   const inactiveColor = '#888888';
 
-  const renderTabLabel = (title: string) => ({ focused, color }: { focused: boolean; color: string }) => (
-    <View style={styles.labelContainer}>
-      <Text style={[
-        styles.labelText,
-        { color, fontWeight: focused ? '600' : '500' }
-      ]}>
-        {title}
-      </Text>
-      {focused && <View style={[styles.activeIndicator, { backgroundColor: color }]} />}
-    </View>
-  );
+  const renderTabLabel = (title: string) => {
+    const TabLabelComponent = ({ focused, color }: { focused: boolean; color: string }) => (
+      <View style={styles.labelContainer}>
+        <Text style={[
+          styles.labelText,
+          { color, fontWeight: focused ? '600' : '500' }
+        ]}>
+          {title}
+        </Text>
+        {focused && <View style={[styles.activeIndicator, { backgroundColor: color }]} />}
+      </View>
+    );
+    TabLabelComponent.displayName = `TabLabel_${title.replace(/\s+/g, '')}`;
+    return TabLabelComponent;
+  };
 
   return (
     <Tabs
