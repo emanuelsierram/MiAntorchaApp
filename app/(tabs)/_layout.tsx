@@ -2,8 +2,8 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
-import { HapticTab } from '@/components/haptic-tab';
 import { Icon } from '@/components/atoms/Icon';
+import { HapticTab } from '@/components/haptic-tab';
 
 export default function TabLayout() {
   // Barra de navegación siempre blanca por requerimiento del usuario
