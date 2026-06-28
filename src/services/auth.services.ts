@@ -3,8 +3,7 @@ export interface LoginRequest {
   contrasena: string;
 }
 
-// IP de tu PC en la red local (ejemplo: 192.168.1.15)
-const API_URL = 'http://192.168.1.3:8080'; 
+const API_URL = 'https://portex-2scu.onrender.com'; 
 
 export const AuthService = {
   login: async (credentials: LoginRequest): Promise<string> => {
