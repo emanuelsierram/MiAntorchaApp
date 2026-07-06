@@ -1,10 +1,9 @@
-// app/index.tsx
 import { FontAwesome } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    Dimensions,
+    Alert, Dimensions,
     Image,
     KeyboardAvoidingView,
     Platform,
@@ -15,6 +14,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
+import { AuthService } from '../src/services/auth.services';
 
 const { height } = Dimensions.get('window');
 
@@ -26,6 +26,40 @@ export default function LoginScreen() {
     // --- NUEVO: Estado para controlar la visibilidad de la contraseña ---
     // SIMILITUD ANGULAR: public isPasswordVisible: boolean = false;
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const [loading, setLoading] = useState(false);
+
+    const handleLogin = async () => {
+        // 1. Validar que no estén vacíos
+        if (!telefono || !contrasena) {
+            Alert.alert('Atención', 'Por favor ingresa tu teléfono y contraseña.');
+            return;
+        }
+
+        setLoading(true); // Bloqueamos la vista
+
+        try {
+            // 2. Llamamos a la API de tu Spring Boot
+            const token = await AuthService.login({
+                usuario: telefono,
+                contrasena: contrasena
+            });
+
+            console.log('Token recibido:', token);
+
+            // 3. Redirigimos al usuario
+            router.replace('/(tabs)');
+
+        } catch (error) {
+            let errorMessage = 'Ocurrió un error al conectar con el servidor.';
+            if (error instanceof Error) {
+                errorMessage = error.message;
+            }
+            Alert.alert('Error al iniciar sesión', errorMessage);
+        } finally {
+            setLoading(false); // Siempre se ejecuta (haya error o no)
+        }
+    };
 
     return (
         <KeyboardAvoidingView
@@ -56,6 +90,7 @@ export default function LoginScreen() {
                                 keyboardType="phone-pad"
                                 value={telefono}
                                 onChangeText={setTelefono}
+                                editable={!loading}
                             />
                         </View>
 
@@ -65,6 +100,7 @@ export default function LoginScreen() {
                             <TextInput
                                 style={styles.input}
                                 placeholder="Contraseña"
+                                editable={!loading}
 
                                 // SIMILITUD ANGULAR: <input [type]="isPasswordVisible ? 'text' : 'password'">
                                 // React Native controla el enmascarado con este booleano.
@@ -89,14 +125,21 @@ export default function LoginScreen() {
                             </TouchableOpacity>
                         </View>
 
-                        <TouchableOpacity onPress={() => router.replace('/(tabs)')} style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            style={styles.buttonContainer}
+                            onPress={handleLogin}   // 1. Llama a la función
+                            disabled={loading}      // 2. Deshabilita el botón si está cargando
+                        >
                             <LinearGradient
-                                colors={['#3db9f3', '#1b8edb', '#1474f1']}
+                                colors={loading ? ['#ccc', '#aaa', '#888'] : ['#7E9FE5', '#4A69BD', '#334885']}
                                 style={styles.gradientButton}
                                 start={{ x: 0, y: 0 }}
                                 end={{ x: 1, y: 0 }}
                             >
-                                <Text style={styles.buttonText}>INICIAR SESIÓN</Text>
+                                {/* 4. Cambiamos el texto dinámicamente */}
+                                <Text style={styles.buttonText}>
+                                    {loading ? 'CARGANDO...' : 'INICIAR SESIÓN'}
+                                </Text>
                             </LinearGradient>
                         </TouchableOpacity>
 
