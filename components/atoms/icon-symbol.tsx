@@ -1,7 +1,6 @@
 // Fallback for using MaterialIcons on Android and web.
-
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
+import { SymbolViewProps, SymbolWeight } from 'expo-symbols';
 import { ComponentProps } from 'react';
 import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
 
@@ -9,22 +8,43 @@ type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof Materia
 type IconSymbolName = keyof typeof MAPPING;
 
 /**
- * Add your SF Symbols to Material Icons mappings here.
- * - see Material Icons in the [Icons Directory](https://icons.expo.fyi).
- * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
+ * Mapeo de íconos: SF Symbols (iOS) -> Material Icons (Android/Web)
  */
 const MAPPING = {
+  // Íconos por defecto de Expo
   'house.fill': 'home',
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  
+  // ==========================================
+  // NUEVOS ÍCONOS PARA MI ANTORCHA APP
+  // ==========================================
+  
+  // Top Navigation y Bottom Sheet
+  'line.3.horizontal': 'menu',
+  'info.circle.fill': 'info',
+  'info.circle': 'info-outline',
+  'chevron.up': 'keyboard-arrow-up',
+  'chevron.down': 'keyboard-arrow-down', 
+
+  // NUEVOS ÍCONOS PARA EL MENÚ INFERIOR (TABS)
+  'book.fill': 'menu-book',
+  'flame.fill': 'local-fire-department',
+  'list.bullet': 'format-list-bulleted',
+  
+  // Organismos y UI
+  'checkmark': 'check',           
+  'calendar': 'calendar-today',
+  'target': 'track-changes',
+  
+  // Metas y Actividades
+  'person.fill.viewfinder': 'person-search',
+  'book': 'book',
+  'book.circle': 'local-library',
+  'person.2.fill': 'people',
 } as IconMapping;
 
-/**
- * An icon component that uses native SF Symbols on iOS, and Material Icons on Android and web.
- * This ensures a consistent look across platforms, and optimal resource usage.
- * Icon `name`s are based on SF Symbols and require manual mapping to Material Icons.
- */
 export function IconSymbol({
   name,
   size = 24,
