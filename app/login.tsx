@@ -1,9 +1,7 @@
 import { FontAwesome } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-    Alert, Dimensions,
+    Dimensions,
     Image,
     KeyboardAvoidingView,
     Platform,
@@ -14,53 +12,16 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import { AuthService } from '../src/services/auth.services';
+import { usePinLogin } from '../src/hooks/use-pin-login';
 
 const { height } = Dimensions.get('window');
 
 export default function LoginScreen() {
-    const router = useRouter();
     const [telefono, setTelefono] = useState('');
-    const [contrasena, setContrasena] = useState('');
-
-    // --- NUEVO: Estado para controlar la visibilidad de la contraseña ---
-    // SIMILITUD ANGULAR: public isPasswordVisible: boolean = false;
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-    const [loading, setLoading] = useState(false);
-
-    const handleLogin = async () => {
-        // 1. Validar que no estén vacíos
-        if (!telefono || !contrasena) {
-            Alert.alert('Atención', 'Por favor ingresa tu teléfono y contraseña.');
-            return;
-        }
-
-        setLoading(true); // Bloqueamos la vista
-
-        try {
-            // 2. Llamamos a la API de tu Spring Boot
-            const token = await AuthService.login({
-                usuario: telefono,
-                contrasena: contrasena
-            });
-
-            console.log('Token recibido:', token);
-
-            // 3. Redirigimos al usuario
-            router.replace('/(tabs)');
-
-        } catch (error) {
-            let errorMessage = 'Ocurrió un error al conectar con el servidor.';
-            if (error instanceof Error) {
-                errorMessage = error.message;
-            }
-            Alert.alert('Error al iniciar sesión', errorMessage);
-        } finally {
-            setLoading(false); // Siempre se ejecuta (haya error o no)
-        }
-    };
-
+    const { pin, setPin, loading } = usePinLogin(telefono);
+    // Referencia para controlar el teclado del PIN oculto
+// --- SOLUCIÓN: Agregamos <TextInput> para tipar correctamente la referencia ---
+    const pinInputRef = useRef<TextInput>(null);
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -94,56 +55,64 @@ export default function LoginScreen() {
                             />
                         </View>
 
-                        {/* --- MODIFICADO: Input Contraseña con Botón Visibilidad --- */}
-                        <View style={styles.inputGroup}>
-                            <FontAwesome name="lock" size={20} color="#666" style={styles.inputIcon} />
+                        {/* --- NUEVO: Input PIN de 4 dígitos estilo Nequi --- */}
+                        <Text style={styles.pinLabel}>Ingresa tu PIN de 4 dígitos</Text>
+                        
+                        <TouchableOpacity 
+                            activeOpacity={1} 
+                            style={styles.pinContainer} 
+                            onPress={() => pinInputRef.current?.focus()}
+                        >
+                            {[0, 1, 2, 3].map((index) => (
+                                <View 
+                                    key={index} 
+                                    style={[
+                                        styles.pinBox, 
+                                        pin.length === index && styles.pinBoxActive // Resalta el cuadro actual
+                                    ]}
+                                >
+                                    <Text style={styles.pinText}>
+                                        {/* Si hay un número en esta posición, dibuja un punto o el número oculto */}
+                                        {pin[index] ? '•' : ''}
+                                    </Text>
+                                </View>
+                            ))}
+
+                            {/* Input oculto que captura realmente los números */}
                             <TextInput
-                                style={styles.input}
-                                placeholder="Contraseña"
+                                ref={pinInputRef}
+                                style={styles.hiddenPinInput}
+                                value={pin}
+                                onChangeText={(text) => {
+                                    // Filtramos para asegurar que solo sean números y máximo 4
+                                    const numericValue = text.replace(/[^0-9]/g, '');
+                                    if (numericValue.length <= 4) {
+                                        setPin(numericValue);
+                                    }
+                                }}
+                                keyboardType="number-pad"
+                                maxLength={4}
                                 editable={!loading}
-
-                                // SIMILITUD ANGULAR: <input [type]="isPasswordVisible ? 'text' : 'password'">
-                                // React Native controla el enmascarado con este booleano.
-                                secureTextEntry={!isPasswordVisible} // ¡Se niega la visibilidad para enmascarar!
-
-                                value={contrasena}
-                                onChangeText={setContrasena}
+                                autoFocus={false}
                             />
+                        </TouchableOpacity>
 
-                            {/* BOTÓN "OJITO" */}
-                            <TouchableOpacity
-                                style={styles.visibilityToggle}
-                                onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-                            >
-                                <FontAwesome
-                                    // SIMILITUD ANGULAR: *ngIf="isPasswordVisible" show 'eye', else 'eye-slash'
-                                    // Aquí usamos un operador ternario para cambiar el nombre del icono dinámicamente.
-                                    name={isPasswordVisible ? 'eye' : 'eye-slash'}
-                                    size={20}
-                                    color="#666"
-                                />
+                        {/* Texto de carga dinámico mientras procesa el autologin */}
+                        {loading && (
+                            <Text style={styles.loadingText}>Iniciando sesión...</Text>
+                        )}
+                        
+                        {/* El texto "O continúa con" y lo de Google queda igual abajo... */}
+
+                        
+                        <View style={styles.footer}>
+                            <Text style={styles.footerText}>¿No tienes cuenta? </Text>
+                            <TouchableOpacity>
+                                <Text style={styles.linkText}>Regístrate</Text>
                             </TouchableOpacity>
                         </View>
 
-                        <TouchableOpacity
-                            style={styles.buttonContainer}
-                            onPress={handleLogin}   // 1. Llama a la función
-                            disabled={loading}      // 2. Deshabilita el botón si está cargando
-                        >
-                            <LinearGradient
-                                colors={loading ? ['#ccc', '#aaa', '#888'] : ['#7E9FE5', '#4A69BD', '#334885']}
-                                style={styles.gradientButton}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 0 }}
-                            >
-                                {/* 4. Cambiamos el texto dinámicamente */}
-                                <Text style={styles.buttonText}>
-                                    {loading ? 'CARGANDO...' : 'INICIAR SESIÓN'}
-                                </Text>
-                            </LinearGradient>
-                        </TouchableOpacity>
-
-                        <Text style={styles.orText}>O continúa con</Text>
+                        <Text style={styles.orText}>O</Text>
 
                         <TouchableOpacity style={styles.googleButton}>
                             <Image
@@ -152,13 +121,6 @@ export default function LoginScreen() {
                             />
                             <Text style={styles.googleButtonText}>Continua con Google</Text>
                         </TouchableOpacity>
-
-                        <View style={styles.footer}>
-                            <Text style={styles.footerText}>¿No tienes cuenta? </Text>
-                            <TouchableOpacity>
-                                <Text style={styles.linkText}>Regístrate</Text>
-                            </TouchableOpacity>
-                        </View>
                     </View>
 
                 </View>
@@ -181,9 +143,6 @@ const styles = StyleSheet.create({
     // El TextInput mantiene 'flex: 1' para ocupar el espacio central y empujar el ojo al final.
     input: { flex: 1, height: 50, fontSize: 16 },
 
-    buttonContainer: { marginTop: 20, shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 4.65, elevation: 8 },
-    gradientButton: { paddingVertical: 15, borderRadius: 25, alignItems: 'center' },
-    buttonText: { color: '#fff', fontSize: 16, fontWeight: 'bold', letterSpacing: 1 },
     orText: { textAlign: 'center', color: '#999', marginVertical: 20 },
     googleButton: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#EEE', paddingVertical: 12, borderRadius: 25, marginBottom: 20 },
     googleIcon: { width: 22, height: 22 },
@@ -192,9 +151,51 @@ const styles = StyleSheet.create({
     footerText: { color: '#666', fontSize: 15 },
     linkText: { color: '#4c669f', fontSize: 15, fontWeight: 'bold' },
 
-    // --- NUEVO ESTILO: Botón Visibilidad ---
-    visibilityToggle: {
-        padding: 10, // Aumenta el área de clic
-        marginRight: -10, // Compensa el padding para alineación visual
+    // --- NUEVOS ESTILOS PARA EL PIN ---
+    pinLabel: {
+        fontSize: 14,
+        color: '#666',
+        textAlign: 'center',
+        marginBottom: 10,
+        marginTop: 10,
+        fontWeight: '600'
+    },
+    pinContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        marginBottom: 25,
+        position: 'relative', // Para contener el input oculto
+    },
+    pinBox: {
+        width: 55,
+        height: 60,
+        borderWidth: 2,
+        borderColor: '#E0E0E0',
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F9F9F9',
+    },
+    pinBoxActive: {
+        borderColor: '#4A69BD', // El color de tu marca cuando está activo
+        backgroundColor: '#FFF',
+    },
+    pinText: {
+        fontSize: 28,
+        color: '#333',
+    },
+    hiddenPinInput: {
+        position: 'absolute',
+        opacity: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1,
+    },
+    loadingText: {
+        textAlign: 'center',
+        color: '#4A69BD',
+        fontWeight: 'bold',
+        marginBottom: 15,
     },
 });
