@@ -1,18 +1,18 @@
-import { TopNavBar } from '@/components/organisms/top-nav-bar';
-import { ThemedView } from '@/components/themed-view';
+import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
 import { StatusBar, StyleSheet } from 'react-native';
 
-// Importamos nuestro template (el "Canguro") y las interfaces de los datos
 import { GoalItem } from '@/components/organisms/goals-list';
+import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { ActivityItem } from '@/components/organisms/weekly-activities-list';
 import { TorchBottomSheet } from '@/components/templates/torch-bottom-sheet';
+import { ThemedView } from '@/components/themed-view';
 
 import { Colors } from '@/src/constants/theme';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 
 export default function HomeScreen() {
- const colorScheme = useColorScheme() ?? 'light';
+  const colorScheme = useColorScheme() ?? 'light';
   const tintColor = Colors[colorScheme].tint; 
 
   // MOCKS
@@ -28,7 +28,6 @@ export default function HomeScreen() {
     { id: 'goal-1', title: 'Estudios Bíblicos completados', iconName: 'book.circle', currentValue: 1, totalValue: 5 },
     { id: 'goal-2', title: 'Visitas a amigos de esperanza', iconName: 'person.2.fill', currentValue: 3, totalValue: 5 },
     { id: 'goal-3', title: 'Visitas a amigos de esperanza', iconName: 'person.2.fill', currentValue: 3, totalValue: 5 },
-
   ]);
 
   const handleToggleActivity = (id: string) => {
@@ -38,11 +37,20 @@ export default function HomeScreen() {
   return (
     <ThemedView style={[styles.mainContainer, { backgroundColor: tintColor }]}>
       <StatusBar barStyle="light-content" />
+
+      {/* FONDO LOTTIE ANIMADO */}
+      <LottieView
+        source={require('@/assets/animations/moon-night-sky.json')}
+        autoPlay
+        loop
+        resizeMode="cover"
+        style={StyleSheet.absoluteFillObject} // Esto hace que ocupe todo el fondo y se posicione absolutamente
+      />
       
       {/* SECCIÓN SUPERIOR AZUL: Solo el TopNavBar como en el mockup original */}
       <TopNavBar 
-        title="Nivel Moisés"
-        onInfoPress={() => console.log('Info presionado')}
+        title=""
+        showInfoIcon={false}
         onMenuPress={() => console.log('Menú presionado')}
       />
 
@@ -59,5 +67,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1, // Ocupa toda la pantalla, el BottomSheet flotará por encima
+    // position: 'relative', // ThemedView por defecto tiene position relative en React Native, por lo que absoluteFillObject funcionará bien
   }
 });
