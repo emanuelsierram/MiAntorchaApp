@@ -1,6 +1,6 @@
 import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { Image, StatusBar, StyleSheet, View } from 'react-native';
 
 import { GoalItem } from '@/components/organisms/goals-list';
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
@@ -38,23 +38,40 @@ export default function HomeScreen() {
     <ThemedView style={[styles.mainContainer, { backgroundColor: tintColor }]}>
       <StatusBar barStyle="light-content" />
 
-      {/* FONDO LOTTIE ANIMADO */}
+      {/* 1. CAPA 1 (Fondo): LOTTIE ANIMADO */}
       <LottieView
         source={require('@/assets/animations/moon-night-sky.json')}
         autoPlay
         loop
         resizeMode="cover"
-        style={StyleSheet.absoluteFillObject} // Esto hace que ocupe todo el fondo y se posicione absolutamente
+        style={StyleSheet.absoluteFillObject}
       />
+
+      {/* 2. CAPA 2 (Medio): COMPOSICIÓN DE LA ANTORCHA (Mango + Fuego) */}
+      {/* pointerEvents="none" evita que la imagen bloquee los toques a la pantalla */}
+      <View style={styles.torchWrapper} pointerEvents="none">
+        <Image 
+          source={require('@/assets/images/torch-handle.webp')} 
+          style={styles.torchHandle}
+          resizeMode="contain" 
+        />
+        
+        {/* Lottie del fuego posicionado en la punta del mango */}
+        <LottieView
+          source={require('@/assets/animations/fire.json')} // Asegúrate de tener este archivo
+          autoPlay
+          loop
+          style={styles.torchFire}
+        />
+      </View>
       
-      {/* SECCIÓN SUPERIOR AZUL: Solo el TopNavBar como en el mockup original */}
+      {/* 3. CAPA 3 (Arriba): INTERFAZ DE USUARIO */}
       <TopNavBar 
         title=""
         showInfoIcon={false}
         onMenuPress={() => console.log('Menú presionado')}
       />
 
-      {/* EL CANGURO FLOTANTE (Bottom Sheet) */}
       <TorchBottomSheet 
         activities={activities}
         goals={goals}
@@ -66,7 +83,25 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 1, // Ocupa toda la pantalla, el BottomSheet flotará por encima
-    // position: 'relative', // ThemedView por defecto tiene position relative en React Native, por lo que absoluteFillObject funcionará bien
+    flex: 1,
+  },
+  // Contenedor que agrupa el mango y el fuego
+  torchWrapper: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: '2%',
+    alignItems: 'center', // Asegura que el fuego y el mango estén centrados entre sí
+  },
+  torchHandle: {
+    width: 350,          // Tamaño ajustado para pantallas móviles reales
+    height: 450,   
+    top: -25, 
+    marginLeft: 10     
+  },
+  torchFire: {
+    position: 'absolute',
+    top: -180, // Valor negativo para que el fuego "suba" y se pose en la punta del mango
+    width: 220,
+    height: 220,
   }
 });

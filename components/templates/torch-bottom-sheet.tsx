@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   handleContainer: {
     alignItems: 'center',
     paddingVertical: 16, 
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
   },
   dragPill: {
     width: 48,
