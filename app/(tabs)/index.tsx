@@ -95,13 +95,13 @@ const styles = StyleSheet.create({
   torchHandle: {
     width: 350,          // Tamaño ajustado para pantallas móviles reales
     height: 450,   
-    top: -25, 
+    top: 10, 
     marginLeft: 10     
   },
   torchFire: {
     position: 'absolute',
-    top: -180, // Valor negativo para que el fuego "suba" y se pose en la punta del mango
-    width: 220,
-    height: 220,
+    top: -205, // Valor negativo para que el fuego "suba" y se pose en la punta del mango
+    width: 280,
+    height: 280,
   }
 });
