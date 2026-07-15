@@ -1,7 +1,8 @@
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { ThemedView } from '@/components/themed-view';
 import React, { useState } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { Alert, StatusBar, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 
 // Importamos nuestro template (el "Canguro") y las interfaces de los datos
 import { GoalItem } from '@/components/organisms/goals-list';
@@ -10,10 +11,12 @@ import { TorchBottomSheet } from '@/components/templates/torch-bottom-sheet';
 
 import { Colors } from '@/src/constants/theme';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { SessionService } from '@/src/services/session.service';
 
 export default function HomeScreen() {
  const colorScheme = useColorScheme() ?? 'light';
   const tintColor = Colors[colorScheme].tint; 
+  const router = useRouter();
 
   // MOCKS
   const [activities, setActivities] = useState<ActivityItem[]>([
@@ -35,6 +38,24 @@ export default function HomeScreen() {
     setActivities((prev) => prev.map((act) => act.id === id ? { ...act, isCompleted: !act.isCompleted } : act));
   };
 
+  const handleLogout = () => {
+    Alert.alert(
+      'Cerrar sesión',
+      '¿Estás seguro de que deseas cerrar sesión?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { 
+          text: 'Cerrar sesión', 
+          style: 'destructive',
+          onPress: async () => {
+            await SessionService.clearToken();
+            router.replace('/login');
+          }
+        }
+      ]
+    );
+  };
+
   return (
     <ThemedView style={[styles.mainContainer, { backgroundColor: tintColor }]}>
       <StatusBar barStyle="light-content" />
@@ -43,7 +64,7 @@ export default function HomeScreen() {
       <TopNavBar 
         title="Nivel Moisés"
         onInfoPress={() => console.log('Info presionado')}
-        onMenuPress={() => console.log('Menú presionado')}
+        onMenuPress={handleLogout}
       />
 
       {/* EL CANGURO FLOTANTE (Bottom Sheet) */}

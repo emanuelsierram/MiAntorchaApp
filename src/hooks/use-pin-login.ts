@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { AuthService } from '../services/auth.services';
+import { SessionService } from '../services/session.service';
 
 export const usePinLogin = (telefono: string) => {
     const router = useRouter();
@@ -31,6 +32,11 @@ export const usePinLogin = (telefono: string) => {
             });
 
             console.log('Token recibido:', token);
+            
+            // Guardar sesión y teléfono en almacenamiento persistente
+            await SessionService.saveToken(token);
+            await SessionService.saveLastPhone(telefono);
+
             router.replace('/(tabs)');
 
         } catch (error) {
