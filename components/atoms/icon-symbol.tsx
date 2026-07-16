@@ -43,6 +43,12 @@ const MAPPING = {
   'book': 'book',
   'book.circle': 'local-library',
   'person.2.fill': 'people',
+  
+  // Nuevos íconos del formulario de estudios bíblicos
+  'person': 'person',
+  'phone': 'phone',
+  'map.pin': 'place',
+  'plus': 'add',
 } as IconMapping;
 
 export function IconSymbol({

@@ -8,6 +8,7 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { SessionService } from '@/src/services/session.service';
+import { AlertProvider } from '@/src/context/alert-context';
 
 export const unstable_settings = {
   initialRouteName: '(tabs)', 
@@ -65,7 +66,9 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}> 
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <AppContent />
+        <AlertProvider>
+          <AppContent />
+        </AlertProvider>
         <StatusBar style="auto" />
       </ThemeProvider>
     </GestureHandlerRootView>

@@ -1,7 +1,7 @@
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { ThemedView } from '@/components/themed-view';
 import React, { useState } from 'react';
-import { Alert, StatusBar, StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 
 // Importamos nuestro template (el "Canguro") y las interfaces de los datos
@@ -12,11 +12,13 @@ import { TorchBottomSheet } from '@/components/templates/torch-bottom-sheet';
 import { Colors } from '@/src/constants/theme';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { SessionService } from '@/src/services/session.service';
+import { useAlert } from '@/src/context/alert-context';
 
 export default function HomeScreen() {
  const colorScheme = useColorScheme() ?? 'light';
   const tintColor = Colors[colorScheme].tint; 
   const router = useRouter();
+  const { showAlert } = useAlert();
 
   // MOCKS
   const [activities, setActivities] = useState<ActivityItem[]>([
@@ -38,40 +40,37 @@ export default function HomeScreen() {
     setActivities((prev) => prev.map((act) => act.id === id ? { ...act, isCompleted: !act.isCompleted } : act));
   };
 
+  const performLogout = async () => {
+    await SessionService.clearToken();
+    router.replace('/login');
+  };
+
   const handleLogout = () => {
-    Alert.alert(
-      'Cerrar sesión',
-      '¿Estás seguro de que deseas cerrar sesión?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        { 
-          text: 'Cerrar sesión', 
-          style: 'destructive',
-          onPress: async () => {
-            await SessionService.clearToken();
-            router.replace('/login');
-          }
-        }
-      ]
-    );
+    showAlert({
+      title: 'Cerrar sesión',
+      text: '¿Estás seguro de que deseas cerrar sesión?',
+      confirmText: 'Sí, cerrar sesión',
+      cancelText: 'Cancelar',
+      onConfirm: performLogout
+    });
   };
 
   return (
     <ThemedView style={[styles.mainContainer, { backgroundColor: tintColor }]}>
       <StatusBar barStyle="light-content" />
       
-      {/* SECCIÓN SUPERIOR AZUL: Solo el TopNavBar como en el mockup original */}
-      <TopNavBar 
-        title="Nivel Moisés"
-        onInfoPress={() => console.log('Info presionado')}
-        onMenuPress={handleLogout}
-      />
-
       {/* EL CANGURO FLOTANTE (Bottom Sheet) */}
       <TorchBottomSheet 
         activities={activities}
         goals={goals}
         onToggleActivity={handleToggleActivity}
+      />
+
+      {/* SECCIÓN SUPERIOR AZUL: Solo el TopNavBar como en el mockup original */}
+      <TopNavBar 
+        title="Nivel Moisés"
+        onInfoPress={() => console.log('Info presionado')}
+        onMenuPress={handleLogout}
       />
     </ThemedView>
   );
