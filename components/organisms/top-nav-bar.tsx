@@ -7,9 +7,20 @@ interface TopNavBarProps {
   title: string;
   onInfoPress?: () => void;
   onMenuPress?: () => void;
+  // Nuevas props para controlar la visibilidad (Abierto a la extensión)
+  showInfoIcon?: boolean;
+  showMenuIcon?: boolean;
 }
 
-export function TopNavBar({ title, onInfoPress, onMenuPress }: TopNavBarProps) {
+export function TopNavBar({ 
+  title, 
+  onInfoPress, 
+  onMenuPress,
+  // Valores por defecto para mantener retrocompatibilidad
+  showInfoIcon = true,
+  showMenuIcon = true
+}: TopNavBarProps) {
+  
   return (
     <View style={styles.container}>
       {/* Sección Izquierda: Título + Ícono Info */}
@@ -17,16 +28,22 @@ export function TopNavBar({ title, onInfoPress, onMenuPress }: TopNavBarProps) {
         <ThemedText style={styles.title} type="title">
           {title}
         </ThemedText>
-        <TouchableOpacity onPress={onInfoPress} style={styles.infoButton} activeOpacity={0.7}>
-          {/* Usamos el ícono relleno para que se parezca al del mockup */}
-          <IconSymbol name="info.circle.fill" size={22} color="#FFFFFF" />
-        </TouchableOpacity>
+        
+        {/* Renderizado Condicional del Átomo/Molécula */}
+        {showInfoIcon && (
+          <TouchableOpacity onPress={onInfoPress} style={styles.infoButton} activeOpacity={0.7}>
+            <IconSymbol name="info.circle.fill" size={22} color="#FFFFFF" />
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* Sección Derecha: Menú Hamburguesa */}
-      <TouchableOpacity onPress={onMenuPress} style={styles.menuButton} activeOpacity={0.7}>
-        <IconSymbol name="line.3.horizontal" size={20} color="#FFFFFF" />
-      </TouchableOpacity>
+      {/* Renderizado Condicional del Átomo/Molécula */}
+      {showMenuIcon && (
+        <TouchableOpacity onPress={onMenuPress} style={styles.menuButton} activeOpacity={0.7}>
+          <IconSymbol name="line.3.horizontal" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -57,8 +74,8 @@ const styles = StyleSheet.create({
   menuButton: {
     width: 40,
     height: 40,
-    borderRadius: 20, // Lo hace perfectamente circular
-    backgroundColor: 'rgba(255, 255, 255, 0.15)', // Fondo translúcido blanco
+    borderRadius: 20, 
+    backgroundColor: 'rgba(255, 255, 255, 0.15)', 
     alignItems: 'center',
     justifyContent: 'center',
   }
