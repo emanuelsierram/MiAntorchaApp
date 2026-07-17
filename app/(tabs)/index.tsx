@@ -7,6 +7,7 @@ import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { ActivityItem } from '@/components/organisms/weekly-activities-list';
 import { TorchBottomSheet } from '@/components/templates/torch-bottom-sheet';
 import { ThemedView } from '@/components/themed-view';
+import { useRouter } from 'expo-router';
 
 import { Colors } from '@/src/constants/theme';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
