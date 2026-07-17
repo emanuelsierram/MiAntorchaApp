@@ -116,12 +116,12 @@ export default function LoginScreen() {
                         {/* El texto "O continúa con" y lo de Google queda igual abajo... */}
 
                         
-                        <View style={styles.footer}>
+                      {/*  <View style={styles.footer}>
                             <Text style={styles.footerText}>¿No tienes cuenta? </Text>
                             <TouchableOpacity>
                                 <Text style={styles.linkText}>Regístrate</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View>*/}
 
                         <Text style={styles.orText}>O</Text>
 
