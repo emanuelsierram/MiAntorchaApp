@@ -3,12 +3,12 @@ import { EmptyState } from '@/components/molecules/empty-state';
 import { AddStudyForm, StudyFormData } from '@/components/organisms/add-study-form';
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { Colors } from '@/src/constants/theme';
+import { useAlert } from '@/src/context/alert-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { SessionService } from '@/src/services/session.service';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Alert, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
-import { useAlert } from '@/src/context/alert-context';
 
 export default function EstudioScreen() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -48,7 +48,8 @@ export default function EstudioScreen() {
       <View style={[styles.headerContainer, { backgroundColor: tintColor }]}>
         <TopNavBar 
           title="Mis estudios bíblicos"
-          onMenuPress={handleLogout}
+          showInfoIcon={false} 
+          onMenuPress={() => console.log('Menú presionado')}
         />
       </View>
 

@@ -10,9 +10,9 @@ import { ThemedView } from '@/components/themed-view';
 import { useRouter } from 'expo-router';
 
 import { Colors } from '@/src/constants/theme';
+import { useAlert } from '@/src/context/alert-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { SessionService } from '@/src/services/session.service';
-import { useAlert } from '@/src/context/alert-context';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -98,12 +98,6 @@ export default function HomeScreen() {
         onToggleActivity={handleToggleActivity}
       />
 
-      {/* SECCIÓN SUPERIOR AZUL: Solo el TopNavBar como en el mockup original */}
-      <TopNavBar 
-        title="Nivel Moisés"
-        onInfoPress={() => console.log('Info presionado')}
-        onMenuPress={handleLogout}
-      />
     </ThemedView>
   );
 }
