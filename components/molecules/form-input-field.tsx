@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   labelText: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#334155',
   },

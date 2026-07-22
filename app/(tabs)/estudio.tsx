@@ -49,7 +49,7 @@ export default function EstudioScreen() {
         <TopNavBar 
           title="Mis estudios bíblicos"
           showInfoIcon={false} 
-          onMenuPress={() => console.log('Menú presionado')}
+          onMenuPress={handleLogout}
         />
       </View>
 

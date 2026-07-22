@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: '#EEF2FF', // Azul claro translúcido
     borderRadius: 24,
-    paddingVertical: 32,
+    paddingVertical: 15,
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'center',
