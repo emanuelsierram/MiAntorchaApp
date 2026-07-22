@@ -1,7 +1,4 @@
-export interface LoginRequest {
-  usuario: string;
-  contrasena: string;
-}
+import { LoginRequest } from "../types/auth";
 
 const API_URL = 'https://portex-2scu.onrender.com'; 
 

@@ -1,4 +1,5 @@
 import { CircularIcon } from '@/components/atoms/circular-icon';
+import { useThemeColor } from '@/src/hooks/use-theme-color';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -11,12 +12,15 @@ export function EmptyState({
   title = "Aún no tienes estudios bíblicos", 
   subtitle = "Registra tu primer alumno y comienza en la obra del Señor" 
 }: EmptyStateProps) {
+  
+  const tintColor = useThemeColor({}, 'tint');
+
   return (
     <View style={styles.cardContainer}>
       <CircularIcon 
         name="book.fill" 
         size={28} 
-        iconColor="#1450B8" 
+        iconColor = {tintColor}
         backgroundColor="#E0E7FF" 
         style={styles.icon}
       />
@@ -30,7 +34,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: '#EEF2FF', // Azul claro translúcido
     borderRadius: 24,
-    paddingVertical: 32,
+    paddingVertical: 15,
     paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'center',

@@ -16,7 +16,7 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
   const bottomSheetRef = useRef<BottomSheet>(null);
   
   // ESTADO NUEVO: Guardamos en qué posición está el canguro (Empieza en 1 que es '75%')
-  const [currentSheetIndex, setCurrentSheetIndex] = useState(1);
+  const [currentSheetIndex, setCurrentSheetIndex] = useState(0);
 
   // Índices: 0 -> '12%' (minimizado), 1 -> '75%' (normal), 2 -> '95%' (expandido)
   const snapPoints = useMemo(() => ['7%', '75%', '95%'], []);
@@ -53,7 +53,7 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={1} 
+      index={0} 
       snapPoints={snapPoints}
       handleComponent={renderHandle}
       backgroundStyle={styles.sheetBackground}
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   handleContainer: {
     alignItems: 'center',
     paddingVertical: 16, 
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
   },
   dragPill: {
     width: 48,

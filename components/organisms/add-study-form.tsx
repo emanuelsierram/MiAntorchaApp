@@ -1,5 +1,6 @@
 import { FormHeader } from '@/components/molecules/form-header';
 import { FormInputField } from '@/components/molecules/form-input-field';
+import { useThemeColor } from '@/src/hooks/use-theme-color';
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -19,6 +20,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
   const [telefono, setTelefono] = useState('');
   const [direccion, setDireccion] = useState('');
   const [edad, setEdad] = useState('');
+  const tintColor = useThemeColor({}, 'tint');
 
   const handlePressSubmit = () => {
     if (!nombre.trim() || !telefono.trim() || !direccion.trim() || !edad.trim()) {
@@ -77,11 +79,11 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
 
       {/* Botón de agregar sin ícono gráfico de acuerdo a las especificaciones */}
       <TouchableOpacity 
-        style={styles.submitButton} 
         onPress={handlePressSubmit}
+        style={[ styles.submitButton, { backgroundColor: tintColor }]}
         activeOpacity={0.8}
       >
-        <Text style={styles.buttonText}>+ Agregar</Text>
+        <Text style={styles.buttonText}>Agregar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -102,7 +104,6 @@ const styles = StyleSheet.create({
     borderColor: '#F1F5F9',
   },
   submitButton: {
-    backgroundColor: '#1450B8',
     height: 48,
     borderRadius: 12,
     alignItems: 'center',

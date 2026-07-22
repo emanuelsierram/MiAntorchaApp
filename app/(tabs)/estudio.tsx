@@ -1,14 +1,15 @@
 // app/(tabs)/estudio.tsx
+import { ActionCard } from '@/components/molecules/action-card';
 import { EmptyState } from '@/components/molecules/empty-state';
 import { AddStudyForm, StudyFormData } from '@/components/organisms/add-study-form';
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { Colors } from '@/src/constants/theme';
+import { useAlert } from '@/src/context/alert-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { SessionService } from '@/src/services/session.service';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Alert, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
-import { useAlert } from '@/src/context/alert-context';
 
 export default function EstudioScreen() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -40,6 +41,10 @@ export default function EstudioScreen() {
     );
   };
 
+  const handleFindStudyPress = () => {
+    Alert.alert('Acción', 'Navegando a Buscar Estudio Bíblico...');
+  };
+
   return (
     <View style={styles.mainContainer}>
       <StatusBar barStyle="light-content" />
@@ -48,6 +53,7 @@ export default function EstudioScreen() {
       <View style={[styles.headerContainer, { backgroundColor: tintColor }]}>
         <TopNavBar 
           title="Mis estudios bíblicos"
+          showInfoIcon={false} 
           onMenuPress={handleLogout}
         />
       </View>
@@ -63,6 +69,14 @@ export default function EstudioScreen() {
           title="Aún no tienes estudios bíblicos"
           subtitle="Registra tu primer estudio y comienza tu crecimiento espiritual."
         />
+
+          {/* Encontrar estudio biblico */}
+        <ActionCard 
+        title="Encuentra un estudio bíblico"
+        subtitle="Hay amigos de esperanza cerca de ti."
+        leftIconName="globe"
+        onPress={handleFindStudyPress}
+          />
 
         {/* Organismo del Formulario */}
         <AddStudyForm onSubmit={handleAddStudy} />

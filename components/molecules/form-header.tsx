@@ -1,4 +1,5 @@
 import { CircularIcon } from '@/components/atoms/circular-icon';
+import { useThemeColor } from '@/src/hooks/use-theme-color';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -7,13 +8,15 @@ interface FormHeaderProps {
 }
 
 export function FormHeader({ title = "Agregar un estudio bíblico" }: FormHeaderProps) {
+    const tintColor = useThemeColor({}, 'tint');
+
   return (
     <View style={styles.container}>
       <CircularIcon 
         name="book.fill" 
         size={18} 
         iconColor="#FFFFFF" 
-        backgroundColor="#1450B8" 
+        backgroundColor={tintColor}
         style={styles.icon}
       />
       <Text style={styles.titleText}>{title}</Text>
