@@ -16,40 +16,40 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
-  
+
   // ==========================================
   // NUEVOS ÍCONOS PARA MI ANTORCHA APP
   // ==========================================
-  
   // Top Navigation y Bottom Sheet
   'line.3.horizontal': 'menu',
   'info.circle.fill': 'info',
   'info.circle': 'info-outline',
   'chevron.up': 'keyboard-arrow-up',
-  'chevron.down': 'keyboard-arrow-down', 
+  'chevron.down': 'keyboard-arrow-down',
 
   // NUEVOS ÍCONOS PARA EL MENÚ INFERIOR (TABS)
   'book.fill': 'menu-book',
   'flame.fill': 'local-fire-department',
   'list.bullet': 'format-list-bulleted',
-  
+
   // Organismos y UI
-  'checkmark': 'check',           
+  'checkmark': 'check',
   'calendar': 'calendar-today',
   'target': 'track-changes',
-  
+
   // Metas y Actividades
   'person.fill.viewfinder': 'person-search',
   'book': 'book',
   'book.circle': 'local-library',
   'person.2.fill': 'people',
-  
+
   // Nuevos íconos del formulario de estudios bíblicos
   'person': 'person',
   'phone': 'phone',
   'map.pin': 'place',
   'plus': 'add',
-} as IconMapping;
+  'globe': 'public',
+} as unknown as IconMapping;
 
 export function IconSymbol({
   name,

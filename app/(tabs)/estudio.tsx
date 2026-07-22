@@ -1,4 +1,5 @@
 // app/(tabs)/estudio.tsx
+import { ActionCard } from '@/components/molecules/action-card';
 import { EmptyState } from '@/components/molecules/empty-state';
 import { AddStudyForm, StudyFormData } from '@/components/organisms/add-study-form';
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
@@ -40,6 +41,10 @@ export default function EstudioScreen() {
     );
   };
 
+  const handleFindStudyPress = () => {
+    Alert.alert('Acción', 'Navegando a Buscar Estudio Bíblico...');
+  };
+
   return (
     <View style={styles.mainContainer}>
       <StatusBar barStyle="light-content" />
@@ -64,6 +69,14 @@ export default function EstudioScreen() {
           title="Aún no tienes estudios bíblicos"
           subtitle="Registra tu primer estudio y comienza tu crecimiento espiritual."
         />
+
+          {/* Encontrar estudio biblico */}
+        <ActionCard 
+        title="Encuentra un estudio bíblico"
+        subtitle="Hay amigos de esperanza cerca de ti."
+        leftIconName="globe"
+        onPress={handleFindStudyPress}
+          />
 
         {/* Organismo del Formulario */}
         <AddStudyForm onSubmit={handleAddStudy} />
