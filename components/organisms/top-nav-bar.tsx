@@ -1,5 +1,6 @@
 import { IconSymbol } from '@/components/atoms/icon-symbol';
 import { ThemedText } from '@/components/atoms/themed-text';
+import { useSettings } from '@/src/context/settings-context';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
@@ -7,29 +8,34 @@ interface TopNavBarProps {
   title: string;
   onInfoPress?: () => void;
   onMenuPress?: () => void;
-  // Nuevas props para controlar la visibilidad (Abierto a la extensión)
   showInfoIcon?: boolean;
   showMenuIcon?: boolean;
 }
 
-export function TopNavBar({ 
-  title, 
-  onInfoPress, 
+export function TopNavBar({
+  title,
+  onInfoPress,
   onMenuPress,
-  // Valores por defecto para mantener retrocompatibilidad
   showInfoIcon = true,
   showMenuIcon = true
 }: TopNavBarProps) {
-  
+  const { showSettings } = useSettings();
+
+  const handleMenuPress = () => {
+    if (onMenuPress) {
+      onMenuPress();
+    } else {
+      showSettings();
+    }
+  };
+
   return (
     <View style={styles.container}>
-      {/* Sección Izquierda: Título + Ícono Info */}
       <View style={styles.leftSection}>
         <ThemedText style={styles.title} type="title">
           {title}
         </ThemedText>
-        
-        {/* Renderizado Condicional del Átomo/Molécula */}
+
         {showInfoIcon && (
           <TouchableOpacity onPress={onInfoPress} style={styles.infoButton} activeOpacity={0.7}>
             <IconSymbol name="info.circle.fill" size={22} color="#FFFFFF" />
@@ -37,10 +43,8 @@ export function TopNavBar({
         )}
       </View>
 
-      {/* Sección Derecha: Menú Hamburguesa */}
-      {/* Renderizado Condicional del Átomo/Molécula */}
       {showMenuIcon && (
-        <TouchableOpacity onPress={onMenuPress} style={styles.menuButton} activeOpacity={0.7}>
+        <TouchableOpacity onPress={handleMenuPress} style={styles.menuButton} activeOpacity={0.7}>
           <IconSymbol name="line.3.horizontal" size={20} color="#FFFFFF" />
         </TouchableOpacity>
       )}
@@ -54,7 +58,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 24,
-    paddingTop: 60, // Espacio seguro para el notch/barra de estado
+    paddingTop: 60,
     paddingBottom: 20,
     zIndex: 99,
   },
@@ -75,8 +79,8 @@ const styles = StyleSheet.create({
   menuButton: {
     width: 40,
     height: 40,
-    borderRadius: 20, 
-    backgroundColor: 'rgba(255, 255, 255, 0.15)', 
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
     alignItems: 'center',
     justifyContent: 'center',
   }

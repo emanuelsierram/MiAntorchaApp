@@ -1,38 +1,41 @@
 import { CircularIcon } from '@/components/atoms/circular-icon';
+import { IconSymbol } from '@/components/atoms/icon-symbol';
+import { ThemedText } from '@/components/atoms/themed-text';
 import { useThemeColor } from '@/src/hooks/use-theme-color';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 interface EmptyStateProps {
   title?: string;
   subtitle?: string;
+  iconName?: React.ComponentProps<typeof IconSymbol>['name'];
 }
 
-export function EmptyState({ 
-  title = "Aún no tienes estudios bíblicos", 
-  subtitle = "Registra tu primer alumno y comienza en la obra del Señor" 
+export function EmptyState({
+  title = 'Aún no tienes estudios bíblicos',
+  subtitle = 'Registra tu primer alumno y comienza en la obra del Señor',
+  iconName = 'book.fill'
 }: EmptyStateProps) {
-  
   const tintColor = useThemeColor({}, 'tint');
 
   return (
     <View style={styles.cardContainer}>
-      <CircularIcon 
-        name="book.fill" 
-        size={28} 
-        iconColor = {tintColor}
-        backgroundColor="#E0E7FF" 
+      <CircularIcon
+        name={iconName}
+        size={28}
+        iconColor={tintColor}
+        backgroundColor="#E0E7FF"
         style={styles.icon}
       />
-      <Text style={styles.titleText}>{title}</Text>
-      <Text style={styles.subtitleText}>{subtitle}</Text>
+      <ThemedText style={styles.titleText}>{title}</ThemedText>
+      <ThemedText style={styles.subtitleText}>{subtitle}</ThemedText>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: '#EEF2FF', // Azul claro translúcido
+    backgroundColor: '#EEF2FF',
     borderRadius: 24,
     paddingVertical: 15,
     paddingHorizontal: 24,
@@ -45,7 +48,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 56,
     height: 56,
-    borderRadius: 28, // Completamente circular
+    borderRadius: 28,
     marginBottom: 16,
   },
   titleText: {

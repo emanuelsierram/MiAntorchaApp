@@ -1,25 +1,26 @@
 import { CircularIcon } from '@/components/atoms/circular-icon';
+import { ThemedText } from '@/components/atoms/themed-text';
 import { useThemeColor } from '@/src/hooks/use-theme-color';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 interface FormHeaderProps {
   title?: string;
 }
 
-export function FormHeader({ title = "Agregar un estudio bíblico" }: FormHeaderProps) {
-    const tintColor = useThemeColor({}, 'tint');
+export function FormHeader({ title = 'Agregar un estudio bíblico' }: FormHeaderProps) {
+  const tintColor = useThemeColor({}, 'tint');
 
   return (
     <View style={styles.container}>
-      <CircularIcon 
-        name="book.fill" 
-        size={18} 
-        iconColor="#FFFFFF" 
+      <CircularIcon
+        name="book.fill"
+        size={18}
+        iconColor="#FFFFFF"
         backgroundColor={tintColor}
         style={styles.icon}
       />
-      <Text style={styles.titleText}>{title}</Text>
+      <ThemedText style={styles.titleText}>{title}</ThemedText>
     </View>
   );
 }
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 36,
     height: 36,
-    borderRadius: 8, // Cuadrado redondeado
+    borderRadius: 8,
     marginRight: 12,
   },
   titleText: {

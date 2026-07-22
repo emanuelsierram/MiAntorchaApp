@@ -7,18 +7,13 @@ import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { ActivityItem } from '@/components/organisms/weekly-activities-list';
 import { TorchBottomSheet } from '@/components/templates/torch-bottom-sheet';
 import { ThemedView } from '@/components/themed-view';
-import { useRouter } from 'expo-router';
 
 import { Colors } from '@/src/constants/theme';
-import { useAlert } from '@/src/context/alert-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { SessionService } from '@/src/services/session.service';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme() ?? 'light';
-  const tintColor = Colors[colorScheme].tint; 
-  const router = useRouter();
-  const { showAlert } = useAlert();
+  const tintColor = Colors[colorScheme].tint;
 
   // MOCKS
   const [activities, setActivities] = useState<ActivityItem[]>([
@@ -37,21 +32,6 @@ export default function HomeScreen() {
 
   const handleToggleActivity = (id: string) => {
     setActivities((prev) => prev.map((act) => act.id === id ? { ...act, isCompleted: !act.isCompleted } : act));
-  };
-
-  const performLogout = async () => {
-    await SessionService.clearToken();
-    router.replace('/login');
-  };
-
-  const handleLogout = () => {
-    showAlert({
-      title: 'Cerrar sesión',
-      text: '¿Estás seguro de que deseas cerrar sesión?',
-      confirmText: 'Sí, cerrar sesión',
-      cancelText: 'Cancelar',
-      onConfirm: performLogout
-    });
   };
 
   return (
@@ -97,6 +77,7 @@ export default function HomeScreen() {
         goals={goals}
         onToggleActivity={handleToggleActivity}
       />
+
 
     </ThemedView>
   );
