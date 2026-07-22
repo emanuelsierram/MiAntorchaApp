@@ -4,7 +4,6 @@ import { EmptyState } from '@/components/molecules/empty-state';
 import { AddStudyForm, StudyFormData } from '@/components/organisms/add-study-form';
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { Colors } from '@/src/constants/theme';
-import { useAlert } from '@/src/context/alert-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import React from 'react';
 import { Alert, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
@@ -26,8 +25,11 @@ export default function EstudioScreen() {
     Alert.alert('Acción', 'Navegando a Buscar Estudio Bíblico...');
   };
 
+  const isDark = colorScheme === 'dark';
+  const screenBg = isDark ? '#0F172A' : '#F8FAFC';
+
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer, { backgroundColor: screenBg }]}>
       <StatusBar barStyle="light-content" />
       
       {/* Header azul superior */}
@@ -35,12 +37,12 @@ export default function EstudioScreen() {
         <TopNavBar
           title="Mis estudios bíblicos"
           showInfoIcon={false}
-          onMenuPress={() => console.log('Menú presionado')}
+        />
       </View>
 
       {/* Cuerpo principal con scroll y solapamiento elegante */}
       <ScrollView 
-        style={styles.bodyScroll} 
+        style={[styles.bodyScroll, { backgroundColor: screenBg }]} 
         contentContainerStyle={styles.bodyContent} 
         showsVerticalScrollIndicator={false}
       >
@@ -75,7 +77,6 @@ const styles = StyleSheet.create({
   },
   bodyScroll: {
     flex: 1,
-    backgroundColor: '#F8FAFC', // Color de fondo del PC/Móvil
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     marginTop: -24, // Efecto de solapamiento redondeado sobre el fondo azul

@@ -5,6 +5,7 @@ import { ActivityItem, WeeklyActivitiesList } from '@/components/organisms/weekl
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import React, { useMemo, useRef, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
 
 interface TorchBottomSheetProps {
   activities: ActivityItem[];
@@ -14,6 +15,12 @@ interface TorchBottomSheetProps {
 
 export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchBottomSheetProps) {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  const sheetBg = isDark ? '#1E293B' : '#FFFFFF';
+  const pillBg = isDark ? '#334155' : '#F3F4F6';
+  const separatorBg = isDark ? '#334155' : '#F3F4F6';
   
   // ESTADO NUEVO: Guardamos en qué posición está el canguro (Empieza en 1 que es '75%')
   const [currentSheetIndex, setCurrentSheetIndex] = useState(0);
@@ -39,7 +46,7 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
       onPress={handleToggleSheet} 
       style={styles.handleContainer}
     >
-      <View style={styles.dragPill}>
+      <View style={[styles.dragPill, { backgroundColor: pillBg }]}>
         {/* Lógica: Si el índice es 0 (minimizado), muestra flecha arriba. Sino, flecha abajo */}
         <IconSymbol 
           name={currentSheetIndex === 0 ? "chevron.up" : "chevron.down"} 
@@ -56,7 +63,7 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
       index={0} 
       snapPoints={snapPoints}
       handleComponent={renderHandle}
-      backgroundStyle={styles.sheetBackground}
+      backgroundStyle={[styles.sheetBackground, { backgroundColor: sheetBg }]}
       // EVENTO NUEVO: Escucha cuando el usuario lo desliza con el dedo y actualiza nuestro estado
       onChange={(index) => setCurrentSheetIndex(index)}
     >
@@ -69,7 +76,7 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
           <WeeklyActivitiesList activities={activities} onToggleActivity={onToggleActivity} />
         </View>
 
-        <View style={styles.separator} />
+        <View style={[styles.separator, { backgroundColor: separatorBg }]} />
 
         <SectionHeader title="Metas propuestas" iconName="target" />
         <View style={styles.sectionContent}>
@@ -83,7 +90,6 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
 
 const styles = StyleSheet.create({
   sheetBackground: {
-    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     shadowColor: '#000',
@@ -101,7 +107,6 @@ const styles = StyleSheet.create({
   dragPill: {
     width: 48,
     height: 28,
-    backgroundColor: '#F3F4F6',
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
@@ -115,7 +120,6 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: '#F3F4F6',
     marginVertical: 24,
   }
 });

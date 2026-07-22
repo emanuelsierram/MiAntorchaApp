@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   },
   dayName: {
     fontSize: 14,
-    color: '#11181C',
   },
   dayShort: {
     fontSize: 12,

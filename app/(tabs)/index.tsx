@@ -69,7 +69,6 @@ export default function HomeScreen() {
       <TopNavBar 
         title=""
         showInfoIcon={false}
-        onMenuPress={() => console.log('Menú presionado')}
       />
 
       <TorchBottomSheet 

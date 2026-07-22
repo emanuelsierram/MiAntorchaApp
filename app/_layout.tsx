@@ -11,6 +11,7 @@ import { SessionService } from '@/src/services/session.service';
 import { AlertProvider } from '@/src/context/alert-context';
 import { CustomThemeProvider } from '@/src/context/theme-context';
 import { SettingsProvider } from '@/src/context/settings-context';
+import { MenuProvider } from '@/src/context/menu-context';
 
 export const unstable_settings = {
   initialRouteName: '(tabs)', 
@@ -58,6 +59,7 @@ function AppContent() {
       <Stack.Screen name="login" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+      <Stack.Screen name="configuracion" options={{ headerShown: false }} />
     </Stack>
   );
 }
@@ -70,7 +72,9 @@ function RootLayoutContent() {
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AlertProvider>
           <SettingsProvider>
-            <AppContent />
+            <MenuProvider>
+              <AppContent />
+            </MenuProvider>
           </SettingsProvider>
         </AlertProvider>
         <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />

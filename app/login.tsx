@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { usePinLogin } from '../src/hooks/use-pin-login';
 import { SessionService } from '../src/services/session.service';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
 
 const { height } = Dimensions.get('window');
 
@@ -23,6 +24,19 @@ export default function LoginScreen() {
     // Referencia para controlar el teclado del PIN oculto
 // --- SOLUCIÓN: Agregamos <TextInput> para tipar correctamente la referencia ---
     const pinInputRef = useRef<TextInput>(null);
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+
+    const containerBg = isDark ? '#121214' : '#fff';
+    const formBg = isDark ? '#1E293B' : 'white';
+    const textColor = isDark ? '#F8FAFC' : '#333';
+    const labelColor = isDark ? '#94A3B8' : '#666';
+    const inputBorderColor = isDark ? '#334155' : '#EEE';
+    const boxBg = isDark ? '#0F172A' : '#F9F9F9';
+    const boxBorder = isDark ? '#334155' : '#E0E0E0';
+    const activeBoxBorder = isDark ? '#3B82F6' : '#4A69BD';
+    const googleBtnBorder = isDark ? '#334155' : '#EEE';
+    const googleBtnTextColor = isDark ? '#ECEDEE' : '#444';
 
     useEffect(() => {
         async function loadDefaultPhone() {
@@ -39,7 +53,7 @@ export default function LoginScreen() {
             style={{ flex: 1 }}
         >
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
-                <View style={styles.container}>
+                <View style={[styles.container, { backgroundColor: containerBg }]}>
 
                     {/* HEADER (Mantenemos la UI anterior) */}
                     <View style={styles.headerContainer}>
@@ -50,15 +64,16 @@ export default function LoginScreen() {
                     </View>
 
                     {/* FORMULARIO */}
-                    <View style={styles.formContainer}>
-                        <Text style={styles.welcomeText}>¡Bienvenido!</Text>
+                    <View style={[styles.formContainer, { backgroundColor: formBg }]}>
+                        <Text style={[styles.welcomeText, { color: textColor }]}>¡Bienvenido!</Text>
 
                         {/* Input Teléfono (Mantenemos la UI anterior) */}
-                        <View style={styles.inputGroup}>
-                            <FontAwesome name="phone" size={20} color="#666" style={styles.inputIcon} />
+                        <View style={[styles.inputGroup, { borderBottomColor: inputBorderColor }]}>
+                            <FontAwesome name="phone" size={20} color={labelColor} style={styles.inputIcon} />
                             <TextInput
-                                style={styles.input}
+                                style={[styles.input, { color: textColor }]}
                                 placeholder="Número de teléfono"
+                                placeholderTextColor={isDark ? '#475569' : '#999'}
                                 keyboardType="phone-pad"
                                 value={telefono}
                                 onChangeText={setTelefono}
@@ -67,7 +82,7 @@ export default function LoginScreen() {
                         </View>
 
                         {/* --- NUEVO: Input PIN de 4 dígitos estilo Nequi --- */}
-                        <Text style={styles.pinLabel}>Ingresa tu PIN de 4 dígitos</Text>
+                        <Text style={[styles.pinLabel, { color: labelColor }]}>Ingresa tu PIN de 4 dígitos</Text>
                         
                         <TouchableOpacity 
                             activeOpacity={1} 
@@ -79,10 +94,11 @@ export default function LoginScreen() {
                                     key={index} 
                                     style={[
                                         styles.pinBox, 
-                                        pin.length === index && styles.pinBoxActive // Resalta el cuadro actual
+                                        { backgroundColor: boxBg, borderColor: boxBorder },
+                                        pin.length === index && { borderColor: activeBoxBorder } // Resalta el cuadro actual
                                     ]}
                                 >
-                                    <Text style={styles.pinText}>
+                                    <Text style={[styles.pinText, { color: textColor }]}>
                                         {/* Si hay un número en esta posición, dibuja un punto o el número oculto */}
                                         {pin[index] ? '•' : ''}
                                     </Text>
@@ -110,7 +126,7 @@ export default function LoginScreen() {
 
                         {/* Texto de carga dinámico mientras procesa el autologin */}
                         {loading && (
-                            <Text style={styles.loadingText}>Iniciando sesión...</Text>
+                            <Text style={[styles.loadingText, { color: activeBoxBorder }]}>Iniciando sesión...</Text>
                         )}
                         
                         {/* El texto "O continúa con" y lo de Google queda igual abajo... */}
@@ -123,14 +139,14 @@ export default function LoginScreen() {
                             </TouchableOpacity>
                         </View>*/}
 
-                        <Text style={styles.orText}>O</Text>
+                        <Text style={[styles.orText, { color: labelColor }]}>O</Text>
 
-                        <TouchableOpacity style={styles.googleButton}>
+                        <TouchableOpacity style={[styles.googleButton, { borderColor: googleBtnBorder }]}>
                             <Image
                                 source={{ uri: 'https://img.icons8.com/color/48/000000/google-logo.png' }}
                                 style={styles.googleIcon}
                             />
-                            <Text style={styles.googleButtonText}>Continua con Google</Text>
+                            <Text style={[styles.googleButtonText, { color: googleBtnTextColor }]}>Continua con Google</Text>
                         </TouchableOpacity>
                     </View>
 

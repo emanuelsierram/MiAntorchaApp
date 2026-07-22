@@ -1,46 +1,48 @@
 import { IconSymbol } from '@/components/atoms/icon-symbol';
 import { ThemedText } from '@/components/atoms/themed-text';
-import { useSettings } from '@/src/context/settings-context';
+import { useMenu } from '@/src/context/menu-context';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface TopNavBarProps {
   title: string;
-  onInfoPress?: () => void;
+  onLeftIconPress?: () => void;
   onMenuPress?: () => void;
-  showInfoIcon?: boolean;
+  showLeftIcon?: boolean;
   showMenuIcon?: boolean;
+  leftIconSymbolName?: React.ComponentProps<typeof IconSymbol>['name'];
 }
 
 export function TopNavBar({
   title,
-  onInfoPress,
+  onLeftIconPress,
   onMenuPress,
-  showInfoIcon = true,
-  showMenuIcon = true
+  showLeftIcon = false,
+  showMenuIcon = true,
+  leftIconSymbolName = 'chevron.left'
 }: TopNavBarProps) {
-  const { showSettings } = useSettings();
+  const { showMenu } = useMenu();
 
   const handleMenuPress = () => {
     if (onMenuPress) {
       onMenuPress();
     } else {
-      showSettings();
+      showMenu();
     }
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.leftSection}>
+        {showLeftIcon && (
+          <TouchableOpacity onPress={onLeftIconPress} style={styles.backButton} activeOpacity={0.7}>
+            <IconSymbol name={leftIconSymbolName} size={22} color="#FFFFFF" />
+          </TouchableOpacity>
+        )}
+
         <ThemedText style={styles.title} type="title">
           {title}
         </ThemedText>
-
-        {showInfoIcon && (
-          <TouchableOpacity onPress={onInfoPress} style={styles.infoButton} activeOpacity={0.7}>
-            <IconSymbol name="info.circle.fill" size={22} color="#FFFFFF" />
-          </TouchableOpacity>
-        )}
       </View>
 
       {showMenuIcon && (
@@ -65,16 +67,20 @@ const styles = StyleSheet.create({
   leftSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 12,
   },
   title: {
     color: '#FFFFFF',
     fontSize: 20,
     fontWeight: 'bold',
   },
-  infoButton: {
-    padding: 4,
-    marginTop: 2,
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   menuButton: {
     width: 40,

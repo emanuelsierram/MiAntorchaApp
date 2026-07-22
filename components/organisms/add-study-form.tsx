@@ -1,6 +1,7 @@
 import { FormHeader } from '@/components/molecules/form-header';
 import { FormInputField } from '@/components/molecules/form-input-field';
 import { useThemeColor } from '@/src/hooks/use-theme-color';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import React, { useState } from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -21,6 +22,11 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
   const [direccion, setDireccion] = useState('');
   const [edad, setEdad] = useState('');
   const tintColor = useThemeColor({}, 'tint');
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  const cardBg = isDark ? '#1E293B' : '#FFFFFF';
+  const cardBorder = isDark ? '#334155' : '#F1F5F9';
 
   const handlePressSubmit = () => {
     if (!nombre.trim() || !telefono.trim() || !direccion.trim() || !edad.trim()) {
@@ -38,7 +44,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
   };
 
   return (
-    <View style={styles.cardContainer}>
+    <View style={[styles.cardContainer, { backgroundColor: cardBg, borderColor: cardBorder }]}>
       {/* Cabecera del formulario */}
       <FormHeader title="Agregar un estudio bíblico" />
 
@@ -91,7 +97,6 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 24,
     padding: 24,
     shadowColor: '#000',
@@ -101,7 +106,6 @@ const styles = StyleSheet.create({
     elevation: 4,
     marginVertical: 16,
     borderWidth: 1,
-    borderColor: '#F1F5F9',
   },
   submitButton: {
     height: 48,
