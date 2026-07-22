@@ -46,7 +46,7 @@ const MAPPING = {
   // Nuevos íconos del formulario de estudios bíblicos
   'person': 'person',
   'phone': 'phone',
-  'map.pin': 'place',
+  'mappin': 'place',
   'plus': 'add',
   'globe': 'public',
 } as unknown as IconMapping;

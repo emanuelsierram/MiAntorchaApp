@@ -61,7 +61,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       />
 
       <FormInputField
-        iconName="map.pin"
+        iconName="mappin"
         label="Dirección"
         placeholder="Calle 46 #16-15"
         value={direccion}
