@@ -1,5 +1,5 @@
 import { FontAwesome } from '@expo/vector-icons';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     Dimensions,
     Image,
@@ -13,6 +13,7 @@ import {
     View
 } from 'react-native';
 import { usePinLogin } from '../src/hooks/use-pin-login';
+import { SessionService } from '../src/services/session.service';
 
 const { height } = Dimensions.get('window');
 
@@ -22,6 +23,16 @@ export default function LoginScreen() {
     // Referencia para controlar el teclado del PIN oculto
 // --- SOLUCIÓN: Agregamos <TextInput> para tipar correctamente la referencia ---
     const pinInputRef = useRef<TextInput>(null);
+
+    useEffect(() => {
+        async function loadDefaultPhone() {
+            const savedPhone = await SessionService.getLastPhone();
+            if (savedPhone) {
+                setTelefono(savedPhone);
+            }
+        }
+        loadDefaultPhone();
+    }, []);
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

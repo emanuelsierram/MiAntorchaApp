@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 60, // Espacio seguro para el notch/barra de estado
     paddingBottom: 20,
+    zIndex: 99,
   },
   leftSection: {
     flexDirection: 'row',
