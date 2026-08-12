@@ -68,7 +68,6 @@ export default function HomeScreen() {
       {/* 3. CAPA 3 (Arriba): INTERFAZ DE USUARIO */}
       <TopNavBar 
         title=""
-        showInfoIcon={false}
       />
 
       <TorchBottomSheet 

@@ -134,7 +134,7 @@ export default function ConfiguracionScreen() {
           <View style={[styles.sectionCard, { backgroundColor: cardBg, borderColor: cardBorder }]}>
             <ActionCard
               title="Cerrar sesión"
-              leftIconName="logout"
+              leftIconName="rectangle.portrait.and.arrow.right"
               onPress={handleLogout}
               showArrow={true}
               flat={true}

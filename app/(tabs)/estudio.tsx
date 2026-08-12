@@ -36,7 +36,6 @@ export default function EstudioScreen() {
       <View style={[styles.headerContainer, { backgroundColor: tintColor }]}>
         <TopNavBar
           title="Mis estudios bíblicos"
-          showInfoIcon={false}
         />
       </View>
 

@@ -51,7 +51,6 @@ const MAPPING = {
   'plus': 'add',
   'globe': 'public',
   'person.circle.fill': 'account-circle',
-  'house.fill': 'home',
   'chart.bar.fill': 'bar-chart',
   'smartphone': 'smartphone',
   'shield.fill': 'security',
@@ -59,7 +58,7 @@ const MAPPING = {
   'bell.fill': 'notifications',
   'star.fill': 'star',
   'envelope.fill': 'mail',
-  'logout': 'logout',
+  'rectangle.portrait.and.arrow.right': 'logout',
 } as unknown as IconMapping;
 
 export function IconSymbol({
