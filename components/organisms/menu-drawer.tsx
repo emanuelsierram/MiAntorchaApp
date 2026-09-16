@@ -1,10 +1,9 @@
-import React from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View, Platform, Alert, Dimensions } from 'react-native';
-import { useRouter } from 'expo-router';
-import { ActionCard } from '@/components/molecules/action-card';
 import { Icon } from '@/components/atoms/Icon';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { ActionCard } from '@/components/molecules/action-card';
 import { useSettings } from '@/src/context/settings-context';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { useRouter } from 'expo-router';
+import { Alert, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface MenuDrawerProps {
   onClose: () => void;
@@ -46,6 +45,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
       </View>
 
       <ScrollView 
+        style={styles.menuScroll}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
         bounces={false}
@@ -60,6 +60,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
           noIconBackground={true}
           iconColor="#3B82F6"
           flat={true}
+          drawerText={true}
         />
 
         <View style={[styles.separator, { backgroundColor: separatorColor }]} />
@@ -74,6 +75,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
             showArrow={true}
             noIconBackground={true}
             flat={true}
+            drawerText={true}
           />
           <ActionCard
             title="Visita de un anciano"
@@ -83,6 +85,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
             showArrow={true}
             noIconBackground={true}
             flat={true}
+            drawerText={true}
           />
           <ActionCard
             title="Metas avanzadas"
@@ -92,6 +95,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
             showArrow={true}
             noIconBackground={true}
             flat={true}
+            drawerText={true}
           />
           <ActionCard
             title="Mi Experiencia"
@@ -101,6 +105,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
             showArrow={true}
             noIconBackground={true}
             flat={true}
+            drawerText={true}
           />
         </View>
 
@@ -115,6 +120,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
             showArrow={true}
             noIconBackground={true}
             flat={true}
+            drawerText={true}
           />
           <ActionCard
             title="Seguridad"
@@ -123,6 +129,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
             showArrow={true}
             noIconBackground={true}
             flat={true}
+            drawerText={true}
           />
           <ActionCard
             title="Configuración"
@@ -131,6 +138,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
             showArrow={true}
             noIconBackground={true}
             flat={true}
+            drawerText={true}
           />
         </View>
       </ScrollView>
@@ -141,7 +149,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === 'ios' ? 48 : 32,
+    paddingTop: Platform.OS === 'ios' ? 48 : 16,
   },
   header: {
     flexDirection: 'row',
@@ -155,6 +163,9 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  menuScroll: {
+    marginTop: -12,
   },
   scrollContent: {
     paddingHorizontal: 16,

@@ -1,7 +1,7 @@
 import { CircularIcon } from '@/components/atoms/circular-icon'; // Ajusta la ruta según tu estructura
 import { IconSymbol } from '@/components/atoms/icon-symbol';
-import { useThemeColor } from '@/src/hooks/use-theme-color';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { useThemeColor } from '@/src/hooks/use-theme-color';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -18,6 +18,7 @@ interface ActionCardProps {
     rightElement?: React.ReactNode;
     titleColor?: string;
     iconBgColor?: string;
+    drawerText?: boolean;
 }
 
 export function ActionCard({
@@ -31,7 +32,8 @@ export function ActionCard({
     flat = false,
     rightElement,
     titleColor,
-    iconBgColor
+    iconBgColor,
+    drawerText = false
 }: ActionCardProps) {
     
     const tintColor = useThemeColor({}, 'tint');
@@ -83,8 +85,8 @@ export function ActionCard({
 
             {/* Centro: Contenedor de Textos */}
             <View style={styles.textContainer}>
-                <Text style={[styles.title, { color: resolvedTitleColor }, flat && styles.flatTitle]}>{title}</Text>
-                {!!subtitle && <Text style={[styles.subtitle, { color: subtitleColor }, flat && styles.flatSubtitle]}>{subtitle}</Text>}
+                <Text style={[styles.title, { color: resolvedTitleColor }, flat && styles.flatTitle, drawerText && styles.drawerTitle]}>{title}</Text>
+                {!!subtitle && <Text style={[styles.subtitle, { color: subtitleColor }, flat && styles.flatSubtitle, drawerText && styles.drawerSubtitle]}>{subtitle}</Text>}
             </View>
 
             {/* Elemento adicional a la derecha */}
@@ -155,6 +157,9 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         marginBottom: 2,
     },
+    drawerTitle: {
+        fontSize: 16,
+    },
     subtitle: {
         fontSize: 14,
         lineHeight: 20,              // Mejora la legibilidad en textos de varias líneas
@@ -162,6 +167,10 @@ const styles = StyleSheet.create({
     flatSubtitle: {
         fontSize: 12,
         lineHeight: 16,
+    },
+    drawerSubtitle: {
+        fontSize: 13,
+        lineHeight: 19,
     },
     rightActionIcon: {
         width: 32,
