@@ -1,14 +1,14 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
+import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router/react-navigation';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
 
+import { AlertProvider } from '@/src/context/alert-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { SessionService } from '@/src/services/session.service';
-import { AlertProvider } from '@/src/context/alert-context';
 
 export const unstable_settings = {
   initialRouteName: '(tabs)', 
