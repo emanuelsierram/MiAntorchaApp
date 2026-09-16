@@ -16,6 +16,7 @@ const MAPPING = {
   'paperplane.fill': 'send',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  'chevron.left': 'chevron-left',
 
   // ==========================================
   // NUEVOS ÍCONOS PARA MI ANTORCHA APP
@@ -49,6 +50,15 @@ const MAPPING = {
   'mappin': 'place',
   'plus': 'add',
   'globe': 'public',
+  'person.circle.fill': 'account-circle',
+  'chart.bar.fill': 'bar-chart',
+  'smartphone': 'smartphone',
+  'shield.fill': 'security',
+  'gearshape.fill': 'settings',
+  'bell.fill': 'notifications',
+  'star.fill': 'star',
+  'envelope.fill': 'mail',
+  'rectangle.portrait.and.arrow.right': 'logout',
 } as unknown as IconMapping;
 
 export function IconSymbol({

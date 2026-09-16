@@ -7,6 +7,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 
 import { AlertProvider } from '@/src/context/alert-context';
+import { MenuProvider } from '@/src/context/menu-context';
+import { SettingsProvider } from '@/src/context/settings-context';
+import { CustomThemeProvider } from '@/src/context/theme-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { SessionService } from '@/src/services/session.service';
 
@@ -56,21 +59,34 @@ function AppContent() {
       <Stack.Screen name="login" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+      <Stack.Screen name="configuracion" options={{ headerShown: false }} />
     </Stack>
   );
 }
 
-export default function RootLayout() {
+function RootLayoutContent() {
   const colorScheme = useColorScheme();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}> 
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AlertProvider>
-          <AppContent />
+          <SettingsProvider>
+            <MenuProvider>
+              <AppContent />
+            </MenuProvider>
+          </SettingsProvider>
         </AlertProvider>
-        <StatusBar style="auto" />
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       </ThemeProvider>
     </GestureHandlerRootView>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <CustomThemeProvider>
+      <RootLayoutContent />
+    </CustomThemeProvider>
   );
 }

@@ -4,33 +4,13 @@ import { EmptyState } from '@/components/molecules/empty-state';
 import { AddStudyForm, StudyFormData } from '@/components/organisms/add-study-form';
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { Colors } from '@/src/constants/theme';
-import { useAlert } from '@/src/context/alert-context';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import { SessionService } from '@/src/services/session.service';
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { Alert, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 
 export default function EstudioScreen() {
   const colorScheme = useColorScheme() ?? 'light';
   const tintColor = Colors[colorScheme].tint;
-  const router = useRouter();
-  const { showAlert } = useAlert();
-
-  const performLogout = async () => {
-    await SessionService.clearToken();
-    router.replace('/login');
-  };
-
-  const handleLogout = () => {
-    showAlert({
-      title: 'Cerrar sesión',
-      text: '¿Estás seguro de que deseas cerrar sesión?',
-      confirmText: 'Sí, cerrar sesión',
-      cancelText: 'Cancelar',
-      onConfirm: performLogout
-    });
-  };
 
   const handleAddStudy = (data: StudyFormData) => {
     // Aquí se gestionaría el envío de datos al backend en el futuro
@@ -45,22 +25,23 @@ export default function EstudioScreen() {
     Alert.alert('Acción', 'Navegando a Buscar Estudio Bíblico...');
   };
 
+  const isDark = colorScheme === 'dark';
+  const screenBg = isDark ? '#0F172A' : '#F8FAFC';
+
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer, { backgroundColor: screenBg }]}>
       <StatusBar barStyle="light-content" />
       
       {/* Header azul superior */}
       <View style={[styles.headerContainer, { backgroundColor: tintColor }]}>
-        <TopNavBar 
+        <TopNavBar
           title="Mis estudios bíblicos"
-          showInfoIcon={false} 
-          onMenuPress={handleLogout}
         />
       </View>
 
       {/* Cuerpo principal con scroll y solapamiento elegante */}
       <ScrollView 
-        style={styles.bodyScroll} 
+        style={[styles.bodyScroll, { backgroundColor: screenBg }]} 
         contentContainerStyle={styles.bodyContent} 
         showsVerticalScrollIndicator={false}
       >
@@ -95,7 +76,6 @@ const styles = StyleSheet.create({
   },
   bodyScroll: {
     flex: 1,
-    backgroundColor: '#F8FAFC', // Color de fondo del PC/Móvil
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     marginTop: -24, // Efecto de solapamiento redondeado sobre el fondo azul
