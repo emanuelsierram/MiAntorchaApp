@@ -2,10 +2,10 @@ import { IconSymbol } from '@/components/atoms/icon-symbol';
 import { SectionHeader } from '@/components/molecules/section-header';
 import { GoalItem, GoalsList } from '@/components/organisms/goals-list';
 import { ActivityItem, WeeklyActivitiesList } from '@/components/organisms/weekly-activities-list';
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import React, { useMemo, useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { useMemo, useRef, useState } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface TorchBottomSheetProps {
   activities: ActivityItem[];
@@ -22,19 +22,19 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
   const pillBg = isDark ? '#334155' : '#F3F4F6';
   const separatorBg = isDark ? '#334155' : '#F3F4F6';
   
-  // ESTADO NUEVO: Guardamos en qué posición está el canguro (Empieza en 1 que es '75%')
-  const [currentSheetIndex, setCurrentSheetIndex] = useState(0);
+  // Guardamos en qué posición está el canguro.
+  const [currentSheetIndex, setCurrentSheetIndex] = useState(1);
 
-  // Índices: 0 -> '12%' (minimizado), 1 -> '75%' (normal), 2 -> '95%' (expandido)
-  const snapPoints = useMemo(() => ['7%', '75%', '95%'], []);
+  // Índices: 0 -> '7%' (minimizado), 1 -> '35%' (normal), 2 -> '95%' (expandido)
+  const snapPoints = useMemo(() => ['7%', '45%', '95%'], []);
 
   // FUNCIÓN NUEVA: Qué hacer al tocar la píldora
   const handleToggleSheet = () => {
     if (currentSheetIndex === 0) {
-      // Si está minimizado (0), súbelo al 75% (1)
+      // Si está minimizado (0), súbelo al 35% (1)
       bottomSheetRef.current?.snapToIndex(1);
     } else {
-      // Si está arriba (1 o 2), bájalo al 12% (0)
+      // Si está arriba (1 o 2), bájalo al 7% (0)
       bottomSheetRef.current?.snapToIndex(0);
     }
   };
@@ -60,7 +60,7 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={0} 
+      index={1}
       snapPoints={snapPoints}
       handleComponent={renderHandle}
       backgroundStyle={[styles.sheetBackground, { backgroundColor: sheetBg }]}

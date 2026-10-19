@@ -103,15 +103,15 @@ const styles = StyleSheet.create({
     alignItems: 'center', // Asegura que el fuego y el mango estén centrados entre sí
   },
   torchHandle: {
-    width: 350,          // Tamaño ajustado para pantallas móviles reales
-    height: 450,   
-    top: 10, 
+    width: 330,          // Tamaño ajustado para pantallas móviles reales
+    height: 420,   
+    top: -70, 
     marginLeft: 10     
   },
   torchFire: {
     position: 'absolute',
-    top: -205, // Valor negativo para que el fuego "suba" y se pose en la punta del mango
-    width: 280,
-    height: 280,
+    top: -235, // Valor negativo para que el fuego "suba" y se pose en la punta del mango
+    width: 240,
+    height: 240,
   }
 });
