@@ -1,5 +1,5 @@
 import LottieView from 'lottie-react-native';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Image, StatusBar, StyleSheet, View } from 'react-native';
 
 import { GoalItem } from '@/components/organisms/goals-list';
@@ -35,7 +35,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <ThemedView style={[styles.mainContainer, { backgroundColor: tintColor }]}>
+    <ThemedView style={styles.mainContainer}>
       <StatusBar barStyle="light-content" />
 
       {/* 1. CAPA 1 (Fondo): LOTTIE ANIMADO */}
@@ -44,7 +44,8 @@ export default function HomeScreen() {
         autoPlay
         loop
         resizeMode="cover"
-        style={StyleSheet.absoluteFillObject}
+        pointerEvents="none"
+        style={styles.backgroundAnimation}
       />
 
       {/* 2. CAPA 2 (Medio): COMPOSICIÓN DE LA ANTORCHA (Mango + Fuego) */}
@@ -84,6 +85,15 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    backgroundColor: 'transparent',
+  },
+  backgroundAnimation: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: 0,
   },
   // Contenedor que agrupa el mango y el fuego
   torchWrapper: {
