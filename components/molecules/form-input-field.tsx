@@ -1,4 +1,5 @@
 import { IconSymbol } from '@/components/atoms/icon-symbol';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import React from 'react';
 import { KeyboardTypeOptions, StyleProp, StyleSheet, Text, TextInput, View, ViewStyle } from 'react-native';
 
@@ -21,19 +22,29 @@ export function FormInputField({
   keyboardType = 'default',
   style,
 }: FormInputFieldProps) {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  const labelColor = isDark ? '#ECEDEE' : '#334155';
+  const iconColor = isDark ? '#94A3B8' : '#334155';
+  const inputBg = isDark ? '#0F172A' : '#FFFFFF';
+  const inputBorder = isDark ? '#334155' : '#E2E8F0';
+  const inputTextColor = isDark ? '#F8FAFC' : '#0F172A';
+  const placeholderTextColor = isDark ? '#475569' : '#94A3B8';
+
   return (
     <View style={[styles.container, style]}>
       {/* Etiqueta con Icono + Texto */}
       <View style={styles.labelContainer}>
-        <IconSymbol name={iconName} size={16} color="#334155" style={styles.icon} />
-        <Text style={styles.labelText}>{label}</Text>
+        <IconSymbol name={iconName} size={16} color={iconColor} style={styles.icon} />
+        <Text style={[styles.labelText, { color: labelColor }]}>{label}</Text>
       </View>
 
       {/* Input de texto */}
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: inputBg, borderColor: inputBorder, color: inputTextColor }]}
         placeholder={placeholder}
-        placeholderTextColor="#94A3B8"
+        placeholderTextColor={placeholderTextColor}
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
@@ -59,16 +70,12 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#334155',
   },
   input: {
     height: 48,
     borderWidth: 1,
-    borderColor: '#E2E8F0',
     borderRadius: 12,
     paddingHorizontal: 16,
     fontSize: 14,
-    color: '#0F172A',
-    backgroundColor: '#FFFFFF',
   }
 });

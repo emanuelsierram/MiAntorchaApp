@@ -3,6 +3,7 @@ import { IconSymbol } from '@/components/atoms/icon-symbol';
 import { ProgressBar } from '@/components/atoms/progress-bar';
 import { ThemedText } from '@/components/atoms/themed-text';
 import { useThemeColor } from '@/src/hooks/use-theme-color';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -16,6 +17,9 @@ interface GoalProgressRowProps {
 export function GoalProgressRow({ title, iconName, currentValue, totalValue }: GoalProgressRowProps) {
   const tintColor = useThemeColor({}, 'tint');
   const percentage = totalValue > 0 ? Math.round((currentValue / totalValue) * 100) : 0;
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+  const iconBg = isDark ? 'rgba(59, 130, 246, 0.15)' : '#F0F8FF';
 
   return (
     <View style={styles.container}>
@@ -23,7 +27,7 @@ export function GoalProgressRow({ title, iconName, currentValue, totalValue }: G
         name={iconName} 
         size={24} 
         iconColor={tintColor} 
-        backgroundColor="#F0F8FF" 
+        backgroundColor={iconBg} 
         style={styles.icon}
       />
       
@@ -74,7 +78,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    color: '#11181C',
   },
   ratioText: {
     fontSize: 14,
