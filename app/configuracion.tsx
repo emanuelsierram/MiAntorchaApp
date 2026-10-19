@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Switch, Text, View, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
-import { TopNavBar } from '@/components/organisms/top-nav-bar';
-import { ModoApariencia } from '@/components/organisms/modo-apariencia';
 import { ActionCard } from '@/components/molecules/action-card';
-import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { ModoApariencia } from '@/components/organisms/appearance-mode';
+import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { useAlert } from '@/src/context/alert-context';
+import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { SessionService } from '@/src/services/session.service';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
 export default function ConfiguracionScreen() {
   const router = useRouter();
