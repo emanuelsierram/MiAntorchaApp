@@ -13,7 +13,7 @@ export interface StudyFormData {
 }
 
 interface AddStudyFormProps {
-  onSubmit: (data: StudyFormData) => void;
+  onSubmit: (data: StudyFormData) => Promise<void>;
 }
 
 export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
@@ -21,6 +21,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
   const [telefono, setTelefono] = useState('');
   const [direccion, setDireccion] = useState('');
   const [edad, setEdad] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const tintColor = useThemeColor({}, 'tint');
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -28,19 +29,24 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
   const cardBg = isDark ? '#1E293B' : '#FFFFFF';
   const cardBorder = isDark ? '#334155' : '#F1F5F9';
 
-  const handlePressSubmit = () => {
+  const handlePressSubmit = async () => {
+    if (isSubmitting) return;
+
     if (!nombre.trim() || !telefono.trim() || !direccion.trim() || !edad.trim()) {
       Alert.alert('Atención', 'Por favor, completa todos los campos del formulario.');
       return;
     }
 
-    onSubmit({ nombre, telefono, direccion, edad });
-    
-    // Limpiar formulario tras agregar
-    setNombre('');
-    setTelefono('');
-    setDireccion('');
-    setEdad('');
+    setIsSubmitting(true);
+    try {
+      await onSubmit({ nombre, telefono, direccion, edad });
+      setNombre('');
+      setTelefono('');
+      setDireccion('');
+      setEdad('');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -88,8 +94,9 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
         onPress={handlePressSubmit}
         style={[ styles.submitButton, { backgroundColor: tintColor }]}
         activeOpacity={0.8}
+        disabled={isSubmitting}
       >
-        <Text style={styles.buttonText}>Agregar</Text>
+        <Text style={styles.buttonText}>{isSubmitting ? 'Guardando...' : 'Agregar'}</Text>
       </TouchableOpacity>
     </View>
   );

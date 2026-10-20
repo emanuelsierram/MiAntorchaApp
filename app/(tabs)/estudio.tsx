@@ -17,6 +17,7 @@ export default function EstudioScreen() {
   const tintColor = Colors[colorScheme].tint;
   const [students, setStudents] = useState<StudyStudent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAddingStudy, setIsAddingStudy] = useState(false);
   const formRef = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -49,6 +50,8 @@ export default function EstudioScreen() {
   }, []);
 
   const handleAddStudy = async (data: StudyFormData) => {
+    setIsAddingStudy(true);
+
     try {
       const userId = await SessionService.getUserId();
       if (!userId) {
@@ -71,12 +74,20 @@ export default function EstudioScreen() {
       };
 
       await EstudiosBiblicosService.create(studyRequest);
-      const currentStudies = await EstudiosBiblicosService.getCurrent(userId);
-      setStudents(currentStudies);
+      setStudents((currentStudents) => [
+        ...currentStudents,
+        {
+          id: `pending-${Date.now()}`,
+          name: studyRequest.nombrePersona,
+          weeks: 'Semana 0/20',
+        },
+      ]);
       Alert.alert('Registro Exitoso', `Se ha registrado a ${data.nombre} como tu nuevo estudio bíblico.`);
     } catch (error) {
       console.error('Error al registrar el estudio bíblico:', error);
       Alert.alert('No se pudo registrar el estudio', error instanceof Error ? error.message : 'Intenta nuevamente.');
+    } finally {
+      setIsAddingStudy(false);
     }
   };
 
@@ -134,6 +145,18 @@ export default function EstudioScreen() {
         {/* Organismo del Formulario */}
         <AddStudyForm onSubmit={handleAddStudy} />
       </ScrollView>
+
+      {isAddingStudy && (
+        <View
+          accessibilityRole="progressbar"
+          accessibilityLabel="Registrando estudio bíblico"
+          style={styles.addingOverlay}
+        >
+          <View style={styles.addingLoaderCard}>
+            <ActivityIndicator color={tintColor} size="large" />
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -159,5 +182,20 @@ const styles = StyleSheet.create({
   },
   loadingIndicator: {
     marginVertical: 48,
+  },
+  addingOverlay: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 10,
+    backgroundColor: 'rgba(15, 23, 42, 0.35)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addingLoaderCard: {
+    width: 88,
+    height: 88,
+    borderRadius: 20,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
