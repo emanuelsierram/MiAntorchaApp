@@ -5,7 +5,6 @@ import { AddStudyForm, StudyFormData } from '@/components/organisms/add-study-fo
 import { TopNavBar } from '@/components/organisms/top-nav-bar';
 import { Colors } from '@/src/constants/theme';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
-import React from 'react';
 import { Alert, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 
 export default function EstudioScreen() {
