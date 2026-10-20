@@ -59,7 +59,7 @@ function AppContent() {
       <Stack.Screen name="login" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      <Stack.Screen name="configuracion" options={{ headerShown: false }} />
+      <Stack.Screen name="configuration" options={{ headerShown: false }} />
     </Stack>
   );
 }

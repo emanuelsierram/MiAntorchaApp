@@ -19,11 +19,11 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
   const closeButtonBg = isDark ? '#334155' : '#F1F5F9';
   const separatorColor = isDark ? '#334155' : '#E2E8F0';
 
-  const handleConfiguracionPress = () => {
+  const handleConfigurationPress = () => {
     onClose();
     // Esperar un pequeño delay para que la animación de cierre del Drawer termine antes de abrir la pantalla
     setTimeout(() => {
-      router.push('/configuracion');
+      router.push('/configuration');
     }, 300);
   };
 
@@ -134,7 +134,7 @@ export function MenuDrawer({ onClose }: MenuDrawerProps) {
           <ActionCard
             title="Configuración"
             leftIconName="gearshape.fill"
-            onPress={handleConfiguracionPress}
+            onPress={handleConfigurationPress}
             showArrow={true}
             noIconBackground={true}
             flat={true}

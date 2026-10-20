@@ -39,14 +39,15 @@ export default function HomeScreen() {
       <StatusBar barStyle="light-content" />
 
       {/* 1. CAPA 1 (Fondo): LOTTIE ANIMADO */}
-      <LottieView
-        source={require('@/assets/animations/moon-night-sky.json')}
-        autoPlay
-        loop
-        resizeMode="cover"
-        pointerEvents="none"
-        style={styles.backgroundAnimation}
-      />
+      <View style={styles.backgroundAnimationContainer} pointerEvents="none">
+        <LottieView
+          source={require('@/assets/animations/moon-night-sky.json')}
+          autoPlay
+          loop
+          resizeMode="cover"
+          style={styles.backgroundAnimation}
+        />
+      </View>
 
       {/* 2. CAPA 2 (Medio): COMPOSICIÓN DE LA ANTORCHA (Mango + Fuego) */}
       {/* pointerEvents="none" evita que la imagen bloquee los toques a la pantalla */}
@@ -88,6 +89,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   backgroundAnimation: {
+    flex: 1,
+  },
+  backgroundAnimationContainer: {
     position: 'absolute',
     top: 0,
     right: 0,

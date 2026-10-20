@@ -26,7 +26,7 @@ export function TorchBottomSheet({ activities, goals, onToggleActivity }: TorchB
   const [currentSheetIndex, setCurrentSheetIndex] = useState(1);
 
   // Índices: 0 -> '7%' (minimizado), 1 -> '35%' (normal), 2 -> '95%' (expandido)
-  const snapPoints = useMemo(() => ['7%', '45%', '95%'], []);
+  const snapPoints = useMemo(() => ['7%', '40%', '95%'], []);
 
   // FUNCIÓN NUEVA: Qué hacer al tocar la píldora
   const handleToggleSheet = () => {
