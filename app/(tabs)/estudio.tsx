@@ -71,6 +71,8 @@ export default function EstudioScreen() {
         idUsuarioAsignado: numericUserId,
         personaQueReporta: numericUserId,
         idGrupo: null,
+        frecuencia: data.frecuencia.trim(),
+        fechaInicializacion: data.fechaInicializacion.trim(),
       };
 
       await EstudiosBiblicosService.create(studyRequest);
