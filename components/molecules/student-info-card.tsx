@@ -1,6 +1,7 @@
 import { CircularIcon } from '@/components/atoms/circular-icon';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import { useThemeColor } from '@/src/hooks/use-theme-color';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface StudentInfoCardProps {
@@ -12,7 +13,6 @@ interface StudentInfoCardProps {
 export function StudentInfoCard({ name, weeks, onPress }: StudentInfoCardProps) {
   const tintColor = useThemeColor({}, 'tint');
   const isDark = useColorScheme() === 'dark';
-  const cardBackground = isDark ? '#1E3A8A' : tintColor;
   const primaryText = '#FFFFFF';
   const secondaryText = isDark ? '#BFDBFE' : '#DCE9FF';
 
@@ -24,9 +24,15 @@ export function StudentInfoCard({ name, weeks, onPress }: StudentInfoCardProps) 
       onPress={onPress}
       style={({ pressed }) => [
         styles.card,
-        { backgroundColor: cardBackground, opacity: pressed ? 0.8 : 1 },
+        { opacity: pressed ? 0.8 : 1 },
       ]}
     >
+      <LinearGradient
+        colors={[tintColor, isDark ? '#1E3A8A' : '#2563C7', tintColor]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={StyleSheet.absoluteFill}
+      />
       <View style={styles.header}>
         <CircularIcon
           name="person"
@@ -47,6 +53,7 @@ const styles = StyleSheet.create({
     width: 165,
     minHeight: 50,
     borderRadius: 24,
+    overflow: 'hidden',
     padding: 20,
     justifyContent: 'space-between',
   },
