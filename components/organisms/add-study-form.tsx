@@ -1,10 +1,9 @@
 import { IconSymbol } from '@/components/atoms/icon-symbol';
 import { FormHeader } from '@/components/molecules/form-header';
 import { FormInputField } from '@/components/molecules/form-input-field';
-import { useThemeColor } from '@/src/hooks/use-theme-color';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Alert, Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const FREQUENCY_OPTIONS = [
@@ -93,7 +92,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       <FormInputField
         iconName="person"
         label="Nombre completo"
-        placeholder="Fransico Rodriguez"
+        placeholder=""
         value={nombre}
         onChangeText={setNombre}
       />
@@ -101,7 +100,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       <FormInputField
         iconName="phone"
         label="Teléfono"
-        placeholder="3205657890"
+        placeholder=""
         value={telefono}
         onChangeText={setTelefono}
         keyboardType="phone-pad"
@@ -110,7 +109,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       <FormInputField
         iconName="mappin"
         label="Dirección"
-        placeholder="Calle 46 #16-15"
+        placeholder=""
         value={direccion}
         onChangeText={setDireccion}
       />
@@ -118,7 +117,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       <FormInputField
         iconName="person"
         label="Edad"
-        placeholder="4"
+        placeholder=""
         value={edad}
         onChangeText={setEdad}
         keyboardType="numeric"
