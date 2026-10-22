@@ -10,6 +10,7 @@ interface FormInputFieldProps {
   value: string;
   onChangeText: (text: string) => void;
   keyboardType?: KeyboardTypeOptions;
+  editable?: boolean;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -20,6 +21,7 @@ export function FormInputField({
   value,
   onChangeText,
   keyboardType = 'default',
+  editable = true,
   style,
 }: FormInputFieldProps) {
   const colorScheme = useColorScheme();
@@ -48,6 +50,7 @@ export function FormInputField({
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
+        editable={editable}
         autoCapitalize="none"
       />
     </View>
