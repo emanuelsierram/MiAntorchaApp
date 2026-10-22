@@ -2,6 +2,7 @@ import { IconSymbol } from '@/components/atoms/icon-symbol';
 import { FormHeader } from '@/components/molecules/form-header';
 import { FormInputField } from '@/components/molecules/form-input-field';
 import { useColorScheme } from '@/src/hooks/use-color-scheme';
+import { useThemeColor } from '@/src/hooks/use-theme-color';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
 import { Alert, Modal, Platform, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -92,7 +93,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       <FormInputField
         iconName="person"
         label="Nombre completo"
-        placeholder=""
+        placeholder="Digita el nombre completo"
         value={nombre}
         onChangeText={setNombre}
       />
@@ -100,7 +101,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       <FormInputField
         iconName="phone"
         label="Teléfono"
-        placeholder=""
+        placeholder="Digita el teléfono"
         value={telefono}
         onChangeText={setTelefono}
         keyboardType="phone-pad"
@@ -109,7 +110,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       <FormInputField
         iconName="mappin"
         label="Dirección"
-        placeholder=""
+        placeholder="Digita la dirección"
         value={direccion}
         onChangeText={setDireccion}
       />
@@ -117,7 +118,7 @@ export function AddStudyForm({ onSubmit }: AddStudyFormProps) {
       <FormInputField
         iconName="person"
         label="Edad"
-        placeholder=""
+        placeholder="Digita la edad"
         value={edad}
         onChangeText={setEdad}
         keyboardType="numeric"
