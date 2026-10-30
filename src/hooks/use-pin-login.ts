@@ -31,8 +31,6 @@ export const usePinLogin = (telefono: string) => {
                 contrasena: pin // Enviamos el PIN al backend donde antes iba la contraseña
             });
 
-            console.log('Token recibido:', token);
-            
             // Guardar sesión y teléfono en almacenamiento persistente
             await SessionService.saveToken(token);
             await SessionService.saveLastPhone(telefono);

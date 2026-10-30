@@ -48,6 +48,7 @@ const MAPPING = {
   'person': 'person',
   'phone': 'phone',
   'mappin': 'place',
+  'repeat': 'repeat',
   'plus': 'add',
   'globe': 'public',
   'person.circle.fill': 'account-circle',
