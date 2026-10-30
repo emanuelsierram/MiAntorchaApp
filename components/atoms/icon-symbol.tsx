@@ -50,6 +50,7 @@ const MAPPING = {
   'mappin': 'place',
   'repeat': 'repeat',
   'plus': 'add',
+  'trash': 'delete',
   'globe': 'public',
   'person.circle.fill': 'account-circle',
   'chart.bar.fill': 'bar-chart',

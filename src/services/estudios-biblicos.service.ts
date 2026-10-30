@@ -78,4 +78,20 @@ export const EstudiosBiblicosService = {
       throw new Error(await getErrorMessage(response, 'No se pudo registrar el estudio bíblico.'));
     }
   },
+
+  remove: async (studyId: string): Promise<void> => {
+    if (!studyId.trim()) {
+      throw new Error('El estudio bíblico no tiene un identificador válido.');
+    }
+
+    const headers = await getRequiredAuthHeaders();
+    const response = await fetch(`${API_URL}/${encodeURIComponent(studyId)}`, {
+      method: 'DELETE',
+      headers,
+    });
+
+    if (!response.ok) {
+      throw new Error(await getErrorMessage(response, 'No se pudo eliminar el estudio bíblico.'));
+    }
+  },
 };

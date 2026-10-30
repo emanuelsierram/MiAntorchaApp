@@ -18,6 +18,7 @@ export default function EstudioScreen() {
   const [students, setStudents] = useState<StudyStudent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAddingStudy, setIsAddingStudy] = useState(false);
+  const [deletingStudyId, setDeletingStudyId] = useState<string | null>(null);
   const formRef = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -97,6 +98,23 @@ export default function EstudioScreen() {
     Alert.alert('Acción', 'Navegando a Buscar Estudio Bíblico...');
   };
 
+  const handleDeleteStudy = async (student: StudyStudent) => {
+    setDeletingStudyId(student.id);
+
+    try {
+      await EstudiosBiblicosService.remove(student.id);
+      setStudents((currentStudents) =>
+        currentStudents.filter((currentStudent) => currentStudent.id !== student.id),
+      );
+      Alert.alert('Estudio eliminado', `Se eliminó correctamente el estudio de ${student.name}.`);
+    } catch (error) {
+      console.error('Error al eliminar el estudio bíblico:', error);
+      Alert.alert('No se pudo eliminar el estudio', error instanceof Error ? error.message : 'Intenta nuevamente.');
+    } finally {
+      setDeletingStudyId(null);
+    }
+  };
+
   const handleNewStudent = () => {
     formRef.current?.scrollToEnd({ animated: true });
   };
@@ -133,6 +151,8 @@ export default function EstudioScreen() {
           <StudyStudentsCarousel
             students={students}
             onNewStudent={handleNewStudent}
+            onDeleteStudent={handleDeleteStudy}
+            deletingStudentId={deletingStudyId}
           />
         )}
 

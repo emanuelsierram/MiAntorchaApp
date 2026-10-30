@@ -13,12 +13,16 @@ interface StudyStudentsCarouselProps {
   students: StudyStudent[];
   onNewStudent: () => void;
   onStudentPress?: (student: StudyStudent) => void;
+  onDeleteStudent?: (student: StudyStudent) => void | Promise<void>;
+  deletingStudentId?: string | null;
 }
 
 export function StudyStudentsCarousel({
   students,
   onNewStudent,
   onStudentPress,
+  onDeleteStudent,
+  deletingStudentId = null,
 }: StudyStudentsCarouselProps) {
   return (
     <ScrollView
@@ -30,9 +34,12 @@ export function StudyStudentsCarousel({
       {students.map((student) => (
         <StudentInfoCard
           key={student.id}
+          id={student.id}
           name={student.name}
           weeks={student.weeks}
           onPress={onStudentPress ? () => onStudentPress(student) : undefined}
+          onDelete={onDeleteStudent ? () => onDeleteStudent(student) : undefined}
+          isDeleting={deletingStudentId === student.id}
         />
       ))}
     </ScrollView>
